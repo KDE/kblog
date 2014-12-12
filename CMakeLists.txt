@@ -30,12 +30,9 @@ find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
 find_package(Qt5WebKitWidgets ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
-# FIXME: remove this if/endif when KMime is split.
-if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
-  find_package(KF5CalendarCore ${KDEPIMLIBS_VERSION} CONFIG REQUIRED)
-  find_package(KF5Syndication ${KDEPIMLIBS_VERSION} CONFIG REQUIRED)
-  find_package(KF5XmlRpcClient ${KDEPIMLIBS_VERSION} CONFIG REQUIRED)
-endif()
+find_package(KF5CalendarCore ${KDEPIMLIBS_VERSION} CONFIG REQUIRED)
+find_package(KF5Syndication ${KDEPIMLIBS_VERSION} CONFIG REQUIRED)
+find_package(KF5XmlRpcClient ${KDEPIMLIBS_VERSION} CONFIG REQUIRED)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libkblog5\")
 add_definitions("-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII")
@@ -67,6 +64,4 @@ install(FILES
    COMPONENT Devel
 )
 
-if ("${CMAKE_BINARY_DIR}" STREQUAL "${KBlog_BINARY_DIR}")
-  feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-endif()
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
