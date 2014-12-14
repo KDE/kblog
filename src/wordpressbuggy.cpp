@@ -336,7 +336,7 @@ void WordpressBuggyPrivate::slotCreatePost(KJob *job)
         setPostCategories(post, !post->isPrivate());
     } else {
         qCDebug(KBLOG_LOG) << "emitting createdPost()"
-                 << "for title: \"" << post->title();
+                           << "for title: \"" << post->title();
         emit q->createdPost(post);
         post->setStatus(KBlog::BlogPost::Created);
     }

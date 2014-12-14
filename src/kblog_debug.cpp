@@ -20,4 +20,3 @@
 #include "kblog_debug.h"
 Q_LOGGING_CATEGORY(KBLOG_LOG, "log_kblog")
 
-

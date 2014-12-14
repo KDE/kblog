@@ -349,7 +349,7 @@ void GData::removePost(KBlog::BlogPost *post)
 
     if (!job) {
         qCWarning(KBLOG_LOG) << "Unable to create KIO job for http://www.blogger.com/feeds/"
-                   << blogId() << QStringLiteral("/posts/default/") + post->postId();
+                             << blogId() << QStringLiteral("/posts/default/") + post->postId();
     }
 
     job->addMetaData(QStringLiteral("ConnectTimeout"), QStringLiteral("50"));
@@ -403,7 +403,7 @@ void GData::createComment(KBlog::BlogPost *post, KBlog::BlogComment *comment)
 
     if (!job) {
         qCWarning(KBLOG_LOG) << "Unable to create KIO job for http://www.blogger.com/feeds/"
-                   << blogId() << "/" << post->postId() << "/comments/default";
+                             << blogId() << "/" << post->postId() << "/comments/default";
     }
 
     job->addMetaData(QStringLiteral("content-type"), QStringLiteral("Content-Type: application/atom+xml; charset=utf-8"));
@@ -447,8 +447,8 @@ void GData::removeComment(KBlog::BlogPost *post, KBlog::BlogComment *comment)
 
     if (!job) {
         qCWarning(KBLOG_LOG) << "Unable to create KIO job for http://www.blogger.com/feeds/"
-                   << blogId() << post->postId()
-                   << "/comments/default/" << comment->commentId();
+                             << blogId() << post->postId()
+                             << "/comments/default/" << comment->commentId();
     }
 
     job->addMetaData(QStringLiteral("ConnectTimeout"), QStringLiteral("50"));

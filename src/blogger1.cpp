@@ -284,7 +284,7 @@ void Blogger1Private::slotListBlogs(const QList<QVariant> &result, const QVarian
         blogInfo[ QStringLiteral("apiUrl") ] = postInfo[QStringLiteral("xmlrpc")].toString();
         blogInfo[ QStringLiteral("title") ] = postInfo[QStringLiteral("blogName")].toString();
         qCDebug(KBLOG_LOG) << "Blog information retrieved: ID =" << blogInfo[QStringLiteral("id")]
-                 << ", Name =" << blogInfo[QStringLiteral("title")];
+                           << ", Name =" << blogInfo[QStringLiteral("title")];
         blogsList << blogInfo;
     }
     emit q->listedBlogs(blogsList);
@@ -318,8 +318,8 @@ void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const Q
         const QMap<QString, QVariant> postInfo = (*it).toMap();
         if (readPostFromMap(&post, postInfo)) {
             qCDebug(KBLOG_LOG) << "Post with ID:"
-                     << post.postId()
-                     << "appended in fetchedPostList";
+                               << post.postId()
+                               << "appended in fetchedPostList";
             post.setStatus(BlogPost::Fetched);
             fetchedPostList.append(post);
         } else {
@@ -388,8 +388,8 @@ void Blogger1Private::slotCreatePost(const QList<QVariant> &result, const QVaria
     post->setPostId(serverID);
     post->setStatus(KBlog::BlogPost::Created);
     qCDebug(KBLOG_LOG) << "emitting createdPost()"
-             << "for title: \"" << post->title()
-             << "\" server id: " << serverID;
+                       << "for title: \"" << post->title()
+                       << "\" server id: " << serverID;
     emit q->createdPost(post);
 }
 
@@ -414,7 +414,7 @@ void Blogger1Private::slotModifyPost(const QList<QVariant> &result, const QVaria
     }
     post->setStatus(KBlog::BlogPost::Modified);
     qCDebug(KBLOG_LOG) << "emitting modifiedPost() for title: \""
-             << post->title() << "\"";
+                       << post->title() << "\"";
     emit q->modifiedPost(post);
 }
 

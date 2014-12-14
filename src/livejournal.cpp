@@ -50,7 +50,7 @@ void LiveJournal::addFriend(const QString &username, int group,
     unsigned int i = d->mCallCounter++; // Add one to the call counter and assign it
     d->mCallMapAddFriend[ i ] = username; // Put the post in the map at location i
     qCDebug(KBLOG_LOG) << "LiveJournal::addFriend(): username: "
-             << username; // Send a message to the console to state which method we have entered.
+                       << username; // Send a message to the console to state which method we have entered.
     QList<QVariant> args; // Create the argument list, in this case will just contain the map.
     QMap<QString, QVariant> map(d->defaultArgs());  // Create the initial map from the default arguments.
     QList<QVariant> users;
@@ -348,7 +348,7 @@ void LiveJournalPrivate::slotCreatePost(const QList<QVariant> &result, const QVa
     post->setPostId(itemid);   // Set the post ID to the anum value from the return struct.
     post->setStatus(KBlog::BlogPost::Created);   // Set the post's status to indicate it has been successfully created.
     qCDebug(KBLOG_LOG) << "emitting createdPost()"
-             << "for" << itemid; // Notify emission to the console
+                       << "for" << itemid; // Notify emission to the console
     emit q->createdPost(post);   // Emit the created post
 }
 
@@ -457,7 +457,7 @@ void LiveJournalPrivate::slotModifyPost(const QList<QVariant> &result, const QVa
     post->setPostId(itemid);   // Set the post ID to the anum value from the return struct.
     post->setStatus(KBlog::BlogPost::Created);   // Set the post's status to indicate it has been successfully created.
     qCDebug(KBLOG_LOG) << "emitting createdPost()"
-             << "for" << itemid; // Notify emission to the console
+                       << "for" << itemid; // Notify emission to the console
     emit q->createdPost(post);   // Emit the created post
 }
 
@@ -482,7 +482,7 @@ void LiveJournalPrivate::slotRemovePost(const QList<QVariant> &result,
     if (itemid == post->postId()) {   // Check the post ID matches the anum value from the return struct.
         post->setStatus(KBlog::BlogPost::Removed);   // Set the post's status to indicate it has been successfully removed.
         qCDebug(KBLOG_LOG) << "emitting createdPost()"
-                 << "for" << itemid; // Notify emission to the console
+                           << "for" << itemid; // Notify emission to the console
         emit q->removedPost(post);   // Emit the removed post
         return;
     }

@@ -256,8 +256,8 @@ void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVa
         setPostCategories(post, !post->isPrivate());
     } else {
         qCDebug(KBLOG_LOG) << "emitting createdPost()"
-                 << "for title: \"" << post->title()
-                 << "\" server id: " << serverID;
+                           << "for title: \"" << post->title()
+                           << "\" server id: " << serverID;
         post->setStatus(KBlog::BlogPost::Created);
         emit q->createdPost(post);
     }
@@ -426,13 +426,13 @@ void MovableTypePrivate::slotSetPostCategories(const QList<QVariant> &result, co
     if (!publish) {
         if (mSilentCreationList.contains(post)) {
             qCDebug(KBLOG_LOG) << "emitting createdPost() for title: \""
-                     << post->title() << "\"";
+                               << post->title() << "\"";
             post->setStatus(KBlog::BlogPost::Created);
             mSilentCreationList.removeOne(post);
             emit q->createdPost(post);
         } else {
             qCDebug(KBLOG_LOG) << "emitting modifiedPost() for title: \""
-                     << post->title() << "\"";
+                               << post->title() << "\"";
             post->setStatus(KBlog::BlogPost::Modified);
             emit q->modifiedPost(post);
         }
