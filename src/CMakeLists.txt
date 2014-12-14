@@ -1,6 +1,7 @@
 remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
 
 set(kblog_SRCS
+   kblog_debug.cpp
    blog.cpp
    blogcomment.cpp
    blogmedia.cpp

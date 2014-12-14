@@ -27,7 +27,7 @@
 
 #include <kdeversion.h>
 
-#include <QDebug>
+#include "kblog_debug.h"
 
 using namespace KBlog;
 
@@ -51,7 +51,7 @@ Blog::Blog(const QUrl &server, BlogPrivate &dd, QObject *parent,
 
 Blog::~Blog()
 {
-    qDebug() << "~Blog()";
+    qCDebug(KBLOG_LOG) << "~Blog()";
     delete d_ptr;
 }
 
@@ -142,5 +142,5 @@ BlogPrivate::BlogPrivate() : q_ptr(0)
 
 BlogPrivate::~BlogPrivate()
 {
-    qDebug() << "~BlogPrivate()";
+    qCDebug(KBLOG_LOG) << "~BlogPrivate()";
 }

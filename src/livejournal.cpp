@@ -26,7 +26,7 @@
 
 #include <kxmlrpcclient/client.h>
 
-#include <QDebug>
+#include "kblog_debug.h"
 #include <KLocalizedString>
 #include <KDateTime>
 
@@ -49,7 +49,7 @@ void LiveJournal::addFriend(const QString &username, int group,
     Q_D(LiveJournal);   // Enable d-pointer access to the LiveJournalPrivate object
     unsigned int i = d->mCallCounter++; // Add one to the call counter and assign it
     d->mCallMapAddFriend[ i ] = username; // Put the post in the map at location i
-    qDebug() << "LiveJournal::addFriend(): username: "
+    qCDebug(KBLOG_LOG) << "LiveJournal::addFriend(): username: "
              << username; // Send a message to the console to state which method we have entered.
     QList<QVariant> args; // Create the argument list, in this case will just contain the map.
     QMap<QString, QVariant> map(d->defaultArgs());  // Create the initial map from the default arguments.
@@ -88,7 +88,7 @@ void LiveJournal::createPost(KBlog::BlogPost *post)
     }
     unsigned int i = d->mCallCounter++; // Add one to the call counter and assign it
     d->mCallMap[ i ] = post; // Put the post in the map at location i
-    qDebug() << "LiveJournal::createPost()"; // Send a message to the console to state which method we have entered.
+    qCDebug(KBLOG_LOG) << "LiveJournal::createPost()"; // Send a message to the console to state which method we have entered.
     QList<QVariant> args; // Create the argument list, in this case will just contain the map.
     QMap<QString, QVariant> map(d->defaultArgs());  // Create the initial map from the default arguments.
     map.insert("lineendings", "pc");   // PC line endings
@@ -192,7 +192,7 @@ void LiveJournal::modifyPost(KBlog::BlogPost *post)
     }
     unsigned int i = d->mCallCounter++; // Add one to the call counter and assign it
     d->mCallMap[ i ] = post; // Put the post in the map at location i
-    qDebug() << "LiveJournal::modifyPost()"; // Send a message to the console to state which method we have entered.
+    qCDebug(KBLOG_LOG) << "LiveJournal::modifyPost()"; // Send a message to the console to state which method we have entered.
     QList<QVariant> args; // Create the argument list, in this case will just contain the map.
     QMap<QString, QVariant> map(d->defaultArgs());  // Create the initial map from the default arguments.
     map.insert("lineendings", "pc");   // PC line endings
@@ -223,7 +223,7 @@ void LiveJournal::modifyPost(KBlog::BlogPost *post)
 void LiveJournal::removePost(KBlog::BlogPost *post)
 {
     Q_D(LiveJournal);   // Enable d-pointer access to the LiveJournalPrivate object
-    qDebug() << "LiveJournal::removePost()"; // Send a message to the console to state which method we have entered.
+    qCDebug(KBLOG_LOG) << "LiveJournal::removePost()"; // Send a message to the console to state which method we have entered.
     QList<QVariant> args; // Create the argument list, in this case will just contain the map.
     QMap<QString, QVariant> map(d->defaultArgs());  // Create the initial map from the default arguments.
     map.insert("itemid", post->postId().toInt());   // Insert the post's unique ID into the struct.
@@ -330,13 +330,13 @@ void LiveJournalPrivate::slotAssignFriendToCategory(const QList<QVariant> &resul
 
 void LiveJournalPrivate::slotCreatePost(const QList<QVariant> &result, const QVariant &id)
 {
-    qDebug() << "LiveJournal::slotCreatePost: " << id; // Print method name and id to the console.
+    qCDebug(KBLOG_LOG) << "LiveJournal::slotCreatePost: " << id; // Print method name and id to the console.
     Q_Q(LiveJournal);   // Get access to the q object which allows access to LiveJournal.* from LiveJournalPrivate
     KBlog::BlogPost *post = mCallMap[ id.toInt() ]; // Retrieve the post from the calling map
     mCallMap.remove(id.toInt());   // Remove the post as it is now owned by the signal catcher
 
     // struct containing String anum, String itemid
-    qDebug() << "TOP:" << result[0].typeName();  // Print first return type to the console.
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();  // Print first return type to the console.
     if (result[0].type() != QVariant::Map) {   // Make sure the only return type is a struct.
         qCritical() << "Could not fetch post's ID out of the result from the server,"
                     << "not a map."; // If not a struct, print error.
@@ -347,7 +347,7 @@ void LiveJournalPrivate::slotCreatePost(const QList<QVariant> &result, const QVa
     QString itemid = result[0].value<QMap<QString, QVariant> >().value("itemid").value<QString>();  // Get post ID from struct.
     post->setPostId(itemid);   // Set the post ID to the anum value from the return struct.
     post->setStatus(KBlog::BlogPost::Created);   // Set the post's status to indicate it has been successfully created.
-    qDebug() << "emitting createdPost()"
+    qCDebug(KBLOG_LOG) << "emitting createdPost()"
              << "for" << itemid; // Notify emission to the console
     emit q->createdPost(post);   // Emit the created post
 }
@@ -439,13 +439,13 @@ void LiveJournalPrivate::slotListRecentPosts(const QList<QVariant> &result, cons
 
 void LiveJournalPrivate::slotModifyPost(const QList<QVariant> &result, const QVariant &id)
 {
-    qDebug() << "LiveJournal::slotModifyPost: " << id; // Print method name and id to the console.
+    qCDebug(KBLOG_LOG) << "LiveJournal::slotModifyPost: " << id; // Print method name and id to the console.
     Q_Q(LiveJournal);   // Get access to the q object which allows access to LiveJournal.* from LiveJournalPrivate
     KBlog::BlogPost *post = mCallMap[ id.toInt() ]; // Retrieve the post from the calling map
     mCallMap.remove(id.toInt());   // Remove the post as it is now owned by the signal catcher
 
     // struct containing String anum, String itemid
-    qDebug() << "TOP:" << result[0].typeName();  // Print first return type to the console.
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();  // Print first return type to the console.
     if (result[0].type() != QVariant::Map) {   // Make sure the only return type is a struct.
         qCritical() << "Could not fetch post's ID out of the result from the server,"
                     << " not a map."; // If not a struct, print error.
@@ -456,7 +456,7 @@ void LiveJournalPrivate::slotModifyPost(const QList<QVariant> &result, const QVa
     QString itemid = result[0].value<QMap<QString, QVariant> >().value("itemid").value<QString>();  // Get post ID from struct.
     post->setPostId(itemid);   // Set the post ID to the anum value from the return struct.
     post->setStatus(KBlog::BlogPost::Created);   // Set the post's status to indicate it has been successfully created.
-    qDebug() << "emitting createdPost()"
+    qCDebug(KBLOG_LOG) << "emitting createdPost()"
              << "for" << itemid; // Notify emission to the console
     emit q->createdPost(post);   // Emit the created post
 }
@@ -464,13 +464,13 @@ void LiveJournalPrivate::slotModifyPost(const QList<QVariant> &result, const QVa
 void LiveJournalPrivate::slotRemovePost(const QList<QVariant> &result,
                                         const QVariant &id)
 {
-    qDebug() << "LiveJournal::slotCreatePost: " << id; // Print method name and id to the console.
+    qCDebug(KBLOG_LOG) << "LiveJournal::slotCreatePost: " << id; // Print method name and id to the console.
     Q_Q(LiveJournal);   // Get access to the q object which allows access to LiveJournal.* from LiveJournalPrivate
     KBlog::BlogPost *post = mCallMap[ id.toInt() ]; // Retrieve the post from the calling map
     mCallMap.remove(id.toInt());   // Remove the post as it is now owned by the signal catcher
 
     // struct containing String anum, String itemid
-    qDebug() << "TOP:" << result[0].typeName();  // Print first return type to the console.
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();  // Print first return type to the console.
     if (result[0].type() != QVariant::Map) {   // Make sure the only return type is a struct.
         qCritical() << "Could not fetch post's ID out of the result from the server,"
                     << "not a map."; // If not a struct, print error.
@@ -481,7 +481,7 @@ void LiveJournalPrivate::slotRemovePost(const QList<QVariant> &result,
     QString itemid = result[0].value<QMap<QString, QVariant> >().value("itemid").value<QString>();
     if (itemid == post->postId()) {   // Check the post ID matches the anum value from the return struct.
         post->setStatus(KBlog::BlogPost::Removed);   // Set the post's status to indicate it has been successfully removed.
-        qDebug() << "emitting createdPost()"
+        qCDebug(KBLOG_LOG) << "emitting createdPost()"
                  << "for" << itemid; // Notify emission to the console
         emit q->removedPost(post);   // Emit the removed post
         return;

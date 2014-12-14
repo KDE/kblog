@@ -27,7 +27,7 @@
 #include "blogmedia.h"
 
 #include <kxmlrpcclient/client.h>
-#include <QDebug>
+#include "kblog_debug.h"
 #include <KLocalizedString>
 #include <KDateTime>
 
@@ -42,18 +42,18 @@ using namespace KBlog;
 MetaWeblog::MetaWeblog(const QUrl &server, QObject *parent)
     : Blogger1(server, *new MetaWeblogPrivate, parent)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 MetaWeblog::MetaWeblog(const QUrl &server, MetaWeblogPrivate &dd, QObject *parent)
     : Blogger1(server, dd, parent)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 MetaWeblog::~MetaWeblog()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 QString MetaWeblog::interfaceName() const
@@ -64,7 +64,7 @@ QString MetaWeblog::interfaceName() const
 void MetaWeblog::listCategories()
 {
     Q_D(MetaWeblog);
-    qDebug() << "Fetching List of Categories...";
+    qCDebug(KBLOG_LOG) << "Fetching List of Categories...";
     QList<QVariant> args(d->defaultArgs(blogId()));
     d->mXmlRpcClient->call(
         QStringLiteral("metaWeblog.getCategories"), args,
@@ -82,7 +82,7 @@ void MetaWeblog::createMedia(KBlog::BlogMedia *media)
     }
     unsigned int i = d->mCallMediaCounter++;
     d->mCallMediaMap[ i ] = media;
-    qDebug() << "MetaWeblog::createMedia: name=" << media->name();
+    qCDebug(KBLOG_LOG) << "MetaWeblog::createMedia: name=" << media->name();
     QList<QVariant> args(d->defaultArgs(blogId()));
     QMap<QString, QVariant> map;
     map[QStringLiteral("name")] = media->name();
@@ -99,14 +99,14 @@ void MetaWeblog::createMedia(KBlog::BlogMedia *media)
 
 MetaWeblogPrivate::MetaWeblogPrivate()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     mCallMediaCounter = 1;
     mCatLoaded = false;
 }
 
 MetaWeblogPrivate::~MetaWeblogPrivate()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 QList<QVariant> MetaWeblogPrivate::defaultArgs(const QString &id)
@@ -123,7 +123,7 @@ QList<QVariant> MetaWeblogPrivate::defaultArgs(const QString &id)
 
 void MetaWeblogPrivate::loadCategories()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 
     if (mCatLoaded) {
         return;
@@ -131,7 +131,7 @@ void MetaWeblogPrivate::loadCategories()
     mCatLoaded = true;
 
     if (mUrl.isEmpty() || mBlogId.isEmpty() || mUsername.isEmpty()) {
-        qDebug() << "We need at least url, blogId and the username to create a unique filename.";
+        qCDebug(KBLOG_LOG) << "We need at least url, blogId and the username to create a unique filename.";
         return;
     }
 
@@ -140,7 +140,7 @@ void MetaWeblogPrivate::loadCategories()
     QDir().mkpath(QFileInfo(filename).absolutePath());
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Cannot open cached categories file: " << filename;
+        qCDebug(KBLOG_LOG) << "Cannot open cached categories file: " << filename;
         return;
     }
 
@@ -151,9 +151,9 @@ void MetaWeblogPrivate::loadCategories()
 
 void MetaWeblogPrivate::saveCategories()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     if (mUrl.isEmpty() || mBlogId.isEmpty() || mUsername.isEmpty()) {
-        qDebug() << "We need at least url, blogId and the username to create a unique filename.";
+        qCDebug(KBLOG_LOG) << "We need at least url, blogId and the username to create a unique filename.";
         return;
     }
 
@@ -162,7 +162,7 @@ void MetaWeblogPrivate::saveCategories()
     QDir().mkpath(QFileInfo(filename).absolutePath());
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly)) {
-        qDebug() << "Cannot open cached categories file: " << filename;
+        qCDebug(KBLOG_LOG) << "Cannot open cached categories file: " << filename;
         return;
     }
 
@@ -177,8 +177,8 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
     Q_Q(MetaWeblog);
     Q_UNUSED(id);
 
-    qDebug() << "MetaWeblogPrivate::slotListCategories";
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "MetaWeblogPrivate::slotListCategories";
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != QVariant::Map &&
             result[0].type() != QVariant::List) {
         // include fix for not metaweblog standard compatible apis with
@@ -195,7 +195,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
             QList<QString>::ConstIterator it = serverKeys.begin();
             QList<QString>::ConstIterator end = serverKeys.end();
             for (; it != end; ++it) {
-                qDebug() << "MIDDLE:" << (*it);
+                qCDebug(KBLOG_LOG) << "MIDDLE:" << (*it);
                 QMap<QString, QString> category;
                 const QMap<QString, QVariant> serverCategory = serverMap[*it].toMap();
                 category[QStringLiteral("name")] = (*it);
@@ -206,7 +206,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
                 category[QStringLiteral("parentId")] = serverCategory[ QStringLiteral("parentId") ].toString();
                 mCategoriesList.append(category);
             }
-            qDebug() << "Emitting listedCategories";
+            qCDebug(KBLOG_LOG) << "Emitting listedCategories";
             emit q->listedCategories(mCategoriesList);
         }
     }
@@ -217,7 +217,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
         QList<QVariant>::ConstIterator it = serverList.begin();
         QList<QVariant>::ConstIterator end = serverList.end();
         for (; it != end; ++it) {
-            qDebug() << "MIDDLE:" << (*it).typeName();
+            qCDebug(KBLOG_LOG) << "MIDDLE:" << (*it).typeName();
             QMap<QString, QString> category;
             const QMap<QString, QVariant> serverCategory = (*it).toMap();
             category[ QStringLiteral("name") ] = serverCategory[QStringLiteral("categoryName")].toString();
@@ -228,7 +228,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
             category[QStringLiteral("parentId")] = serverCategory[ QStringLiteral("parentId") ].toString();
             mCategoriesList.append(category);
         }
-        qDebug() << "Emitting listedCategories()";
+        qCDebug(KBLOG_LOG) << "Emitting listedCategories()";
         emit q->listedCategories(mCategoriesList);
     }
     saveCategories();
@@ -242,8 +242,8 @@ void MetaWeblogPrivate::slotCreateMedia(const QList<QVariant> &result,
     KBlog::BlogMedia *media = mCallMediaMap[ id.toInt() ];
     mCallMediaMap.remove(id.toInt());
 
-    qDebug() << "MetaWeblogPrivate::slotCreateMedia, no error!";
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "MetaWeblogPrivate::slotCreateMedia, no error!";
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != 8) {
         qCritical() << "Could not read the result, not a map.";
         emit q->errorMedia(MetaWeblog::ParsingError,
@@ -253,12 +253,12 @@ void MetaWeblogPrivate::slotCreateMedia(const QList<QVariant> &result,
     }
     const QMap<QString, QVariant> resultStruct = result[0].toMap();
     const QString url = resultStruct[QStringLiteral("url")].toString();
-    qDebug() << "MetaWeblog::slotCreateMedia url=" << url;
+    qCDebug(KBLOG_LOG) << "MetaWeblog::slotCreateMedia url=" << url;
 
     if (!url.isEmpty()) {
         media->setUrl(QUrl(url));
         media->setStatus(BlogMedia::Created);
-        qDebug() << "Emitting createdMedia( url=" << url  << ");";
+        qCDebug(KBLOG_LOG) << "Emitting createdMedia( url=" << url  << ");";
         emit q->createdMedia(media);
     }
 }
@@ -267,13 +267,13 @@ bool MetaWeblogPrivate::readPostFromMap(BlogPost *post,
                                         const QMap<QString, QVariant> &postInfo)
 {
     // FIXME: integrate error handling
-    qDebug() << "readPostFromMap()";
+    qCDebug(KBLOG_LOG) << "readPostFromMap()";
     if (!post) {
         return false;
     }
     QStringList mapkeys = postInfo.keys();
-    qDebug() << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
-    qDebug() << endl;
+    qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
+    qCDebug(KBLOG_LOG) << endl;
 
     KDateTime dt =
         KDateTime(postInfo[QStringLiteral("dateCreated")].toDateTime(), KDateTime::UTC);
@@ -297,7 +297,7 @@ bool MetaWeblogPrivate::readPostFromMap(BlogPost *post,
     post->setTitle(title);
     post->setContent(description);
     if (!categories.isEmpty()) {
-        qDebug() << "Categories:" << categories;
+        qCDebug(KBLOG_LOG) << "Categories:" << categories;
         post->setCategories(categories);
     }
     return true;

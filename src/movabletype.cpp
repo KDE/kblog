@@ -28,7 +28,7 @@
 #include <kxmlrpcclient/client.h>
 #include <kio/job.h>
 
-#include <QDebug>
+#include "kblog_debug.h"
 #include <KLocalizedString>
 #include <KDateTime>
 
@@ -39,19 +39,19 @@ using namespace KBlog;
 MovableType::MovableType(const QUrl &server, QObject *parent)
     : MetaWeblog(server, *new MovableTypePrivate, parent)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 MovableType::MovableType(const QUrl &server, MovableTypePrivate &dd,
                          QObject *parent)
     : MetaWeblog(server, dd, parent)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 MovableType::~MovableType()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 QString MovableType::interfaceName() const
@@ -62,7 +62,7 @@ QString MovableType::interfaceName() const
 void MovableType::listRecentPosts(int number)
 {
     Q_D(MovableType);
-    qDebug();
+    qCDebug(KBLOG_LOG);
     QList<QVariant> args(d->defaultArgs(blogId()));
     args << QVariant(number);
     d->mXmlRpcClient->call(
@@ -75,7 +75,7 @@ void MovableType::listRecentPosts(int number)
 void MovableType::listTrackBackPings(KBlog::BlogPost *post)
 {
     Q_D(MovableType);
-    qDebug();
+    qCDebug(KBLOG_LOG);
     QList<QVariant> args;
     args << QVariant(post->postId());
     unsigned int i = d->mCallCounter++;
@@ -90,7 +90,7 @@ void MovableType::listTrackBackPings(KBlog::BlogPost *post)
 void MovableType::fetchPost(BlogPost *post)
 {
     Q_D(MovableType);
-    qDebug();
+    qCDebug(KBLOG_LOG);
     d->loadCategories();
     if (d->mCategoriesList.isEmpty() &&
             post->categories().count()) {
@@ -113,7 +113,7 @@ void MovableType::createPost(BlogPost *post)
 {
     // reimplemented because we do this:
     // http://comox.textdrive.com/pipermail/wp-testers/2005-July/000284.html
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_D(MovableType);
 
     // we need mCategoriesList to be loaded first, since we cannot use the post->categories()
@@ -121,7 +121,7 @@ void MovableType::createPost(BlogPost *post)
     d->loadCategories();
     if (d->mCategoriesList.isEmpty() &&
             !post->categories().isEmpty()) {
-        qDebug() << "No categories in the cache yet. Have to fetch them first.";
+        qCDebug(KBLOG_LOG) << "No categories in the cache yet. Have to fetch them first.";
         d->mCreatePostCache << post;
         connect(this, SIGNAL(listedCategories(QList<QMap<QString,QString> >)),
                 this, SLOT(slotTriggerCreatePost()));
@@ -132,7 +132,7 @@ void MovableType::createPost(BlogPost *post)
         if (!post->categories().isEmpty()) {
             post->setPrivate(true);
             if (d->mSilentCreationList.contains(post)) {
-                qDebug() << "Post already in mSilentCreationList, this *should* never happen!";
+                qCDebug(KBLOG_LOG) << "Post already in mSilentCreationList, this *should* never happen!";
             } else {
                 d->mSilentCreationList << post;
             }
@@ -148,7 +148,7 @@ void MovableType::modifyPost(BlogPost *post)
 {
     // reimplemented because we do this:
     // http://comox.textdrive.com/pipermail/wp-testers/2005-July/000284.html
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_D(MovableType);
 
     // we need mCategoriesList to be loaded first, since we cannot use the post->categories()
@@ -156,7 +156,7 @@ void MovableType::modifyPost(BlogPost *post)
     d->loadCategories();
     if (d->mCategoriesList.isEmpty() &&
             !post->categories().isEmpty()) {
-        qDebug() << "No categories in the cache yet. Have to fetch them first.";
+        qCDebug(KBLOG_LOG) << "No categories in the cache yet. Have to fetch them first.";
         d->mModifyPostCache << post;
         connect(this, SIGNAL(listedCategories(QList<QMap<QString,QString> >)),
                 this, SLOT(slotTriggerModifyPost()));
@@ -168,7 +168,7 @@ void MovableType::modifyPost(BlogPost *post)
 
 void MovableTypePrivate::slotTriggerCreatePost()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(MovableType);
 
     q->disconnect(q, SIGNAL(listedCategories(QList<QMap<QString,QString> >)),
@@ -184,7 +184,7 @@ void MovableTypePrivate::slotTriggerCreatePost()
 
 void MovableTypePrivate::slotTriggerModifyPost()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(MovableType);
 
     q->disconnect(q, SIGNAL(listedCategories(QList<QMap<QString,QString> >)),
@@ -200,7 +200,7 @@ void MovableTypePrivate::slotTriggerModifyPost()
 
 void MovableTypePrivate::slotTriggerFetchPost()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(MovableType);
 
     q->disconnect(q, SIGNAL(listedCategories(QList<QMap<QString,QString> >)),
@@ -215,26 +215,26 @@ void MovableTypePrivate::slotTriggerFetchPost()
 
 MovableTypePrivate::MovableTypePrivate()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 MovableTypePrivate::~MovableTypePrivate()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVariant &id)
 {
     Q_Q(MovableType);
     // reimplement from Blogger1 to chainload the categories stuff before emit()
-    qDebug();
+    qCDebug(KBLOG_LOG);
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
 
-    qDebug();
+    qCDebug(KBLOG_LOG);
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != QVariant::String &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the postId, not a string or an integer.";
@@ -255,7 +255,7 @@ void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVa
         // set the categories and publish afterwards
         setPostCategories(post, !post->isPrivate());
     } else {
-        qDebug() << "emitting createdPost()"
+        qCDebug(KBLOG_LOG) << "emitting createdPost()"
                  << "for title: \"" << post->title()
                  << "\" server id: " << serverID;
         post->setStatus(KBlog::BlogPost::Created);
@@ -266,14 +266,14 @@ void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVa
 void MovableTypePrivate::slotFetchPost(const QList<QVariant> &result, const QVariant &id)
 {
     Q_Q(MovableType);
-    qDebug();
+    qCDebug(KBLOG_LOG);
 
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
 
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() == QVariant::Map &&
             readPostFromMap(post, result[0].toMap())) {
     } else {
@@ -293,7 +293,7 @@ void MovableTypePrivate::slotFetchPost(const QList<QVariant> &result, const QVar
             q, SLOT(slotError(int,QString,QVariant)),
             QVariant(i));
     } else {
-        qDebug() << "Emitting fetchedPost()";
+        qCDebug(KBLOG_LOG) << "Emitting fetchedPost()";
         post->setStatus(KBlog::BlogPost::Fetched);
         emit q->fetchedPost(post);
     }
@@ -303,13 +303,13 @@ void MovableTypePrivate::slotModifyPost(const QList<QVariant> &result, const QVa
 {
     Q_Q(MovableType);
     // reimplement from Blogger1
-    qDebug();
+    qCDebug(KBLOG_LOG);
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
 
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != QVariant::Bool &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the result, not a boolean.";
@@ -331,7 +331,7 @@ void MovableTypePrivate::slotModifyPost(const QList<QVariant> &result, const QVa
 
 void MovableTypePrivate::setPostCategories(BlogPost *post, bool publishAfterCategories)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(MovableType);
 
     unsigned int i = mCallCounter++;
@@ -345,7 +345,7 @@ void MovableTypePrivate::setPostCategories(BlogPost *post, bool publishAfterCate
     for (int j = 0; j < categories.count(); j++) {
         for (int k = 0; k < mCategoriesList.count(); k++) {
             if (mCategoriesList[k][QStringLiteral("name")] == categories[j]) {
-                qDebug() << "Matched category with name: " << categories[ j ] << " and id: " << mCategoriesList[ k ][ QStringLiteral("categoryId") ];
+                qCDebug(KBLOG_LOG) << "Matched category with name: " << categories[ j ] << " and id: " << mCategoriesList[ k ][ QStringLiteral("categoryId") ];
                 QMap<QString, QVariant> category;
                 //the first in the QStringList of post->categories()
                 // is the primary category
@@ -354,7 +354,7 @@ void MovableTypePrivate::setPostCategories(BlogPost *post, bool publishAfterCate
                 break;
             }
             if (k == mCategoriesList.count()) {
-                qDebug() << "Couldn't find categoryId for: " << categories[j];
+                qCDebug(KBLOG_LOG) << "Couldn't find categoryId for: " << categories[j];
             }
         }
     }
@@ -369,7 +369,7 @@ void MovableTypePrivate::setPostCategories(BlogPost *post, bool publishAfterCate
 
 void MovableTypePrivate::slotGetPostCategories(const QList<QVariant> &result, const QVariant &id)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(MovableType);
 
     int i = id.toInt();
@@ -391,7 +391,7 @@ void MovableTypePrivate::slotGetPostCategories(const QList<QVariant> &result, co
         for (; it != end; it++) {
             newCatList << (*it).toMap()[ QStringLiteral("categoryName") ].toString();
         }
-        qDebug() << "categories list: " << newCatList;
+        qCDebug(KBLOG_LOG) << "categories list: " << newCatList;
         post->setCategories(newCatList);
         post->setStatus(KBlog::BlogPost::Fetched);
         emit q->fetchedPost(post);
@@ -400,7 +400,7 @@ void MovableTypePrivate::slotGetPostCategories(const QList<QVariant> &result, co
 
 void MovableTypePrivate::slotSetPostCategories(const QList<QVariant> &result, const QVariant &id)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(MovableType);
 
     int i = id.toInt();
@@ -425,13 +425,13 @@ void MovableTypePrivate::slotSetPostCategories(const QList<QVariant> &result, co
     // this is the end of the chain then
     if (!publish) {
         if (mSilentCreationList.contains(post)) {
-            qDebug() << "emitting createdPost() for title: \""
+            qCDebug(KBLOG_LOG) << "emitting createdPost() for title: \""
                      << post->title() << "\"";
             post->setStatus(KBlog::BlogPost::Created);
             mSilentCreationList.removeOne(post);
             emit q->createdPost(post);
         } else {
-            qDebug() << "emitting modifiedPost() for title: \""
+            qCDebug(KBLOG_LOG) << "emitting modifiedPost() for title: \""
                      << post->title() << "\"";
             post->setStatus(KBlog::BlogPost::Modified);
             emit q->modifiedPost(post);
@@ -455,13 +455,13 @@ bool MovableTypePrivate::readPostFromMap(BlogPost *post, const QMap<QString, QVa
 {
 
     // FIXME: integrate error handling
-    qDebug() << "readPostFromMap()";
+    qCDebug(KBLOG_LOG) << "readPostFromMap()";
     if (!post) {
         return false;
     }
     QStringList mapkeys = postInfo.keys();
-    qDebug() << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
-    qDebug() << endl;
+    qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
+    qCDebug(KBLOG_LOG) << endl;
 
     KDateTime dt =
         KDateTime(postInfo[QStringLiteral("dateCreated")].toDateTime(), KDateTime::UTC);
@@ -517,7 +517,7 @@ bool MovableTypePrivate::readPostFromMap(BlogPost *post, const QMap<QString, QVa
         post->setPrivate(true);
     }
     if (!categories.isEmpty()) {
-        qDebug() << "Categories:" << categories;
+        qCDebug(KBLOG_LOG) << "Categories:" << categories;
         post->setCategories(categories);
     }
     return true;
@@ -527,7 +527,7 @@ void MovableTypePrivate::slotListTrackBackPings(
     const QList<QVariant> &result, const QVariant &id)
 {
     Q_Q(MovableType);
-    qDebug() << "slotTrackbackPings()";
+    qCDebug(KBLOG_LOG) << "slotTrackbackPings()";
     BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
     QList<QMap<QString, QString> > trackBackList;
@@ -544,14 +544,14 @@ void MovableTypePrivate::slotListTrackBackPings(
     QList<QVariant>::ConstIterator end = trackBackReceived.end();
     for (; it != end; ++it) {
         QMap<QString, QString> tping;
-        qDebug() << "MIDDLE:" << (*it).typeName();
+        qCDebug(KBLOG_LOG) << "MIDDLE:" << (*it).typeName();
         const QMap<QString, QVariant> trackBackInfo = (*it).toMap();
         tping[ QStringLiteral("title") ] = trackBackInfo[ QStringLiteral("pingTitle")].toString();
         tping[ QStringLiteral("url") ] = trackBackInfo[ QStringLiteral("pingURL")].toString();
         tping[ QStringLiteral("ip") ] = trackBackInfo[ QStringLiteral("pingIP")].toString();
         trackBackList << tping;
     }
-    qDebug() << "Emitting listedTrackBackPings()";
+    qCDebug(KBLOG_LOG) << "Emitting listedTrackBackPings()";
     emit q->listedTrackBackPings(post, trackBackList);
 }
 

@@ -27,7 +27,7 @@
 
 #include <kxmlrpcclient/client.h>
 
-#include <QDebug>
+#include "kblog_debug.h"
 #include <KDateTime>
 #include <KLocalizedString>
 
@@ -40,20 +40,20 @@ using namespace KBlog;
 Blogger1::Blogger1(const QUrl &server, QObject *parent)
     : Blog(server, *new Blogger1Private, parent)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     setUrl(server);
 }
 
 Blogger1::Blogger1(const QUrl &server, Blogger1Private &dd, QObject *parent)
     : Blog(server, dd, parent)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     setUrl(server);
 }
 
 Blogger1::~Blogger1()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
 }
 
 QString Blogger1::interfaceName() const
@@ -73,7 +73,7 @@ void Blogger1::setUrl(const QUrl &server)
 void Blogger1::fetchUserInfo()
 {
     Q_D(Blogger1);
-    qDebug() << "Fetch user's info...";
+    qCDebug(KBLOG_LOG) << "Fetch user's info...";
     QList<QVariant> args(d->blogger1Args());
     d->mXmlRpcClient->call(
         QStringLiteral("blogger.getUserInfo"), args,
@@ -84,7 +84,7 @@ void Blogger1::fetchUserInfo()
 void Blogger1::listBlogs()
 {
     Q_D(Blogger1);
-    qDebug() << "Fetch List of Blogs...";
+    qCDebug(KBLOG_LOG) << "Fetch List of Blogs...";
     QList<QVariant> args(d->blogger1Args());
     d->mXmlRpcClient->call(
         QStringLiteral("blogger.getUsersBlogs"), args,
@@ -95,7 +95,7 @@ void Blogger1::listBlogs()
 void Blogger1::listRecentPosts(int number)
 {
     Q_D(Blogger1);
-    qDebug() << "Fetching List of Posts...";
+    qCDebug(KBLOG_LOG) << "Fetching List of Posts...";
     QList<QVariant> args(d->defaultArgs(blogId()));
     args << QVariant(number);
     d->mXmlRpcClient->call(
@@ -113,7 +113,7 @@ void Blogger1::fetchPost(KBlog::BlogPost *post)
     }
 
     Q_D(Blogger1);
-    qDebug() << "Fetching Post with url" << post->postId();
+    qCDebug(KBLOG_LOG) << "Fetching Post with url" << post->postId();
     QList<QVariant> args(d->defaultArgs(post->postId()));
     unsigned int i = d->mCallCounter++;
     d->mCallMap[ i ] = post;
@@ -133,7 +133,7 @@ void Blogger1::modifyPost(KBlog::BlogPost *post)
         return;
     }
 
-    qDebug() << "Uploading Post with postId" << post->postId();
+    qCDebug(KBLOG_LOG) << "Uploading Post with postId" << post->postId();
     unsigned int i = d->mCallCounter++;
     d->mCallMap[ i ] = post;
     QList<QVariant> args(d->defaultArgs(post->postId()));
@@ -156,7 +156,7 @@ void Blogger1::createPost(KBlog::BlogPost *post)
 
     unsigned int i = d->mCallCounter++;
     d->mCallMap[ i ] = post;
-    qDebug() << "Creating new Post with blogid" << blogId();
+    qCDebug(KBLOG_LOG) << "Creating new Post with blogid" << blogId();
     QList<QVariant> args(d->defaultArgs(blogId()));
     d->readArgsFromPost(&args, *post);
     d->mXmlRpcClient->call(
@@ -177,7 +177,7 @@ void Blogger1::removePost(KBlog::BlogPost *post)
 
     unsigned int i = d->mCallCounter++;
     d->mCallMap[ i ] = post;
-    qDebug() << "Blogger1::removePost: postId=" << post->postId();
+    qCDebug(KBLOG_LOG) << "Blogger1::removePost: postId=" << post->postId();
     QList<QVariant> args(d->blogger1Args(post->postId()));
     args << QVariant(true);   // Publish must be set to remove post.
     d->mXmlRpcClient->call(
@@ -190,19 +190,19 @@ void Blogger1::removePost(KBlog::BlogPost *post)
 Blogger1Private::Blogger1Private() :
     mXmlRpcClient(0)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     mCallCounter = 1;
 }
 
 Blogger1Private::~Blogger1Private()
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     delete mXmlRpcClient;
 }
 
 QList<QVariant> Blogger1Private::defaultArgs(const QString &id)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(Blogger1);
     QList<QVariant> args;
     args << QVariant(QLatin1String("0123456789ABCDEF"));
@@ -217,7 +217,7 @@ QList<QVariant> Blogger1Private::defaultArgs(const QString &id)
 // reimplemenet defaultArgs, since we may not use it virtually everywhere
 QList<QVariant> Blogger1Private::blogger1Args(const QString &id)
 {
-    qDebug();
+    qCDebug(KBLOG_LOG);
     Q_Q(Blogger1);
     QList<QVariant> args;
     args << QVariant(QLatin1String("0123456789ABCDEF"));
@@ -234,8 +234,8 @@ void Blogger1Private::slotFetchUserInfo(const QList<QVariant> &result, const QVa
     Q_Q(Blogger1);
     Q_UNUSED(id);
 
-    qDebug();
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG);
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     QMap<QString, QString> userInfo;
     if (result[0].type() != QVariant::Map) {
         qCritical() << "Could not fetch user's info out of the result from the server,"
@@ -261,8 +261,8 @@ void Blogger1Private::slotListBlogs(const QList<QVariant> &result, const QVarian
     Q_Q(Blogger1);
     Q_UNUSED(id);
 
-    qDebug();
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG);
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     QList<QMap<QString, QString> > blogsList;
     if (result[0].type() != QVariant::List) {
         qCritical() << "Could not fetch blogs out of the result from the server,"
@@ -276,14 +276,14 @@ void Blogger1Private::slotListBlogs(const QList<QVariant> &result, const QVarian
     QList<QVariant>::ConstIterator it = posts.begin();
     QList<QVariant>::ConstIterator end = posts.end();
     for (; it != end; ++it) {
-        qDebug() << "MIDDLE:" << (*it).typeName();
+        qCDebug(KBLOG_LOG) << "MIDDLE:" << (*it).typeName();
         const QMap<QString, QVariant> postInfo = (*it).toMap();
         QMap<QString, QString> blogInfo;
         blogInfo[ QStringLiteral("id") ] = postInfo[QStringLiteral("blogid")].toString();
         blogInfo[ QStringLiteral("url") ] = postInfo[QStringLiteral("url")].toString();
         blogInfo[ QStringLiteral("apiUrl") ] = postInfo[QStringLiteral("xmlrpc")].toString();
         blogInfo[ QStringLiteral("title") ] = postInfo[QStringLiteral("blogName")].toString();
-        qDebug() << "Blog information retrieved: ID =" << blogInfo[QStringLiteral("id")]
+        qCDebug(KBLOG_LOG) << "Blog information retrieved: ID =" << blogInfo[QStringLiteral("id")]
                  << ", Name =" << blogInfo[QStringLiteral("title")];
         blogsList << blogInfo;
     }
@@ -296,8 +296,8 @@ void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const Q
     int count = id.toInt(); // not sure if needed, actually the API should
 // not give more posts
 
-    qDebug();
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG);
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
 
     QList <BlogPost> fetchedPostList;
 
@@ -314,10 +314,10 @@ void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const Q
     QList<QVariant>::ConstIterator end = postReceived.end();
     for (; it != end; ++it) {
         BlogPost post;
-        qDebug() << "MIDDLE:" << (*it).typeName();
+        qCDebug(KBLOG_LOG) << "MIDDLE:" << (*it).typeName();
         const QMap<QString, QVariant> postInfo = (*it).toMap();
         if (readPostFromMap(&post, postInfo)) {
-            qDebug() << "Post with ID:"
+            qCDebug(KBLOG_LOG) << "Post with ID:"
                      << post.postId()
                      << "appended in fetchedPostList";
             post.setStatus(BlogPost::Fetched);
@@ -330,14 +330,14 @@ void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const Q
             break;
         }
     }
-    qDebug() << "Emitting listRecentPostsFinished()";
+    qCDebug(KBLOG_LOG) << "Emitting listRecentPostsFinished()";
     emit q->listedRecentPosts(fetchedPostList);
 }
 
 void Blogger1Private::slotFetchPost(const QList<QVariant> &result, const QVariant &id)
 {
     Q_Q(Blogger1);
-    qDebug();
+    qCDebug(KBLOG_LOG);
 
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
@@ -345,10 +345,10 @@ void Blogger1Private::slotFetchPost(const QList<QVariant> &result, const QVarian
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
     // TODO: Time zone for the dateCreated!
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() == QVariant::Map &&
             readPostFromMap(post, result[0].toMap())) {
-        qDebug() << "Emitting fetchedPost()";
+        qCDebug(KBLOG_LOG) << "Emitting fetchedPost()";
         post->setStatus(KBlog::BlogPost::Fetched);
         emit q->fetchedPost(post);
     } else {
@@ -366,11 +366,11 @@ void Blogger1Private::slotCreatePost(const QList<QVariant> &result, const QVaria
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
 
-    qDebug();
+    qCDebug(KBLOG_LOG);
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
     // TODO: Time zone for the dateCreated!
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != QVariant::String &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the postId, not a string or an integer.";
@@ -387,7 +387,7 @@ void Blogger1Private::slotCreatePost(const QList<QVariant> &result, const QVaria
     }
     post->setPostId(serverID);
     post->setStatus(KBlog::BlogPost::Created);
-    qDebug() << "emitting createdPost()"
+    qCDebug(KBLOG_LOG) << "emitting createdPost()"
              << "for title: \"" << post->title()
              << "\" server id: " << serverID;
     emit q->createdPost(post);
@@ -399,11 +399,11 @@ void Blogger1Private::slotModifyPost(const QList<QVariant> &result, const QVaria
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
 
-    qDebug();
+    qCDebug(KBLOG_LOG);
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
     // TODO: Time zone for the dateCreated!
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != QVariant::Bool &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the result, not a boolean.";
@@ -413,7 +413,7 @@ void Blogger1Private::slotModifyPost(const QList<QVariant> &result, const QVaria
         return;
     }
     post->setStatus(KBlog::BlogPost::Modified);
-    qDebug() << "emitting modifiedPost() for title: \""
+    qCDebug(KBLOG_LOG) << "emitting modifiedPost() for title: \""
              << post->title() << "\"";
     emit q->modifiedPost(post);
 }
@@ -424,11 +424,11 @@ void Blogger1Private::slotRemovePost(const QList<QVariant> &result, const QVaria
     KBlog::BlogPost *post = mCallMap[ id.toInt() ];
     mCallMap.remove(id.toInt());
 
-    qDebug() << "slotRemovePost";
+    qCDebug(KBLOG_LOG) << "slotRemovePost";
     //array of structs containing ISO.8601
     // dateCreated, String userid, String postid, String content;
     // TODO: Time zone for the dateCreated!
-    qDebug() << "TOP:" << result[0].typeName();
+    qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != QVariant::Bool &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the result, not a boolean.";
@@ -438,7 +438,7 @@ void Blogger1Private::slotRemovePost(const QList<QVariant> &result, const QVaria
         return;
     }
     post->setStatus(KBlog::BlogPost::Removed);
-    qDebug() << "emitting removedPost()";
+    qCDebug(KBLOG_LOG) << "emitting removedPost()";
     emit q->removedPost(post);
 }
 
@@ -448,7 +448,7 @@ void Blogger1Private::slotError(int number,
 {
     Q_Q(Blogger1);
     Q_UNUSED(number);
-    qDebug() << "An error occurred: " << errorString;
+    qCDebug(KBLOG_LOG) << "An error occurred: " << errorString;
     BlogPost *post = mCallMap[ id.toInt() ];
 
     if (post) {
@@ -466,8 +466,8 @@ bool Blogger1Private::readPostFromMap(
         return false;
     }
     QStringList mapkeys = postInfo.keys();
-    qDebug() << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
-    qDebug() << endl;
+    qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
+    qCDebug(KBLOG_LOG) << endl;
 
     KDateTime dt(postInfo[QStringLiteral("dateCreated")].toDateTime(), KDateTime::UTC);
     if (dt.isValid() && !dt.isNull()) {
