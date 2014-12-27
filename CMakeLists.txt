@@ -17,11 +17,11 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
 set(KF5_VERSION "5.5.0")
-set(KDEPIMLIBS_VERSION "4.79.0")
+set(KBLOGLIB_VERSION "4.79.0")
 set(CALENDARCORELIB_VERSION "4.79.0")
 set(SYNDICATIONLIB_VERSION "4.79.0")
 set(XMLRPCCLIENTLIB_VERSION "4.79.0")
-ecm_setup_version(${KDEPIMLIBS_VERSION} VARIABLE_PREFIX KBLOG
+ecm_setup_version(${KBLOGLIB_VERSION} VARIABLE_PREFIX KBLOG
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kblog_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5BlogConfigVersion.cmake"
                         SOVERSION 5)
