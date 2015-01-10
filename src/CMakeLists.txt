@@ -25,7 +25,7 @@ generate_export_header(KF5Blog BASE_NAME kblog)
 
 add_library(KF5::Blog ALIAS KF5Blog)
 
-target_include_directories(KF5Blog INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KBlog;${KF5_INCLUDE_INSTALL_DIR}/KBlog/kblog>")
+target_include_directories(KF5Blog INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KBlog;${KDE_INSTALL_INCLUDEDIR_KF5}/KBlog/kblog>")
 target_include_directories(KF5Blog PUBLIC "$<BUILD_INTERFACE:${KBlog_SOURCE_DIR}/src;${KBlog_BINARY_DIR}/src>")
 
 target_link_libraries(KF5Blog
@@ -67,15 +67,15 @@ install(FILES
     ${KBlog_BINARY_DIR}/src/kblog_export.h
     ${KBlog_HEADERS}
     ${KBlog_CamelCase_HEADERS}
-    DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KBlog/kblog
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KBlog/kblog
     COMPONENT Devel
 )
 install(FILES
     ${KBlog_CamelCase_HEADERS}
-    DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KBlog/KBlog
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KBlog/KBlog
     COMPONENT Devel
 )
 
 
-ecm_generate_pri_file(BASE_NAME KBlog LIB_NAME KF5Blog DEPS "KDELibs4Support Syndication CalendarCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KF5_INCLUDE_INSTALL_DIR}/KBlog)
+ecm_generate_pri_file(BASE_NAME KBlog LIB_NAME KF5Blog DEPS "KDELibs4Support Syndication CalendarCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KBlog)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})

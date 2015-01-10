@@ -43,7 +43,7 @@ add_subdirectory(src)
 add_subdirectory(autotests)
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5Blog")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Blog")
 
 ecm_configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/KF5BlogConfig.cmake.in"
@@ -62,7 +62,7 @@ install(EXPORT KF5BlogTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KF5B
 
 install(FILES
    ${CMAKE_CURRENT_BINARY_DIR}/kblog_version.h
-   DESTINATION ${KF5_INCLUDE_INSTALL_DIR}
+   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}
    COMPONENT Devel
 )
 
