@@ -47,9 +47,9 @@ public:
     virtual ~MovableTypePrivate();
     virtual void slotListTrackBackPings(const QList<QVariant> &result,
                                         const QVariant &id);
-    void slotCreatePost(const QList<QVariant> &, const QVariant &);
-    void slotFetchPost(const QList<QVariant> &, const QVariant &);
-    void slotModifyPost(const QList<QVariant> &, const QVariant &);
+    void slotCreatePost(const QList<QVariant> &, const QVariant &) Q_DECL_OVERRIDE;
+    void slotFetchPost(const QList<QVariant> &, const QVariant &) Q_DECL_OVERRIDE;
+    void slotModifyPost(const QList<QVariant> &, const QVariant &) Q_DECL_OVERRIDE;
     void slotSetPostCategories(const QList<QVariant> &, const QVariant &);
     void slotGetPostCategories(const QList<QVariant> &, const QVariant &);
     void slotTriggerCreatePost();
@@ -57,10 +57,10 @@ public:
     void slotTriggerFetchPost();
     Q_DECLARE_PUBLIC(MovableType)
 
-    QList<QVariant> defaultArgs(const QString &id = QString());
+    QList<QVariant> defaultArgs(const QString &id = QString()) Q_DECL_OVERRIDE;
     virtual void setPostCategories(BlogPost *post, bool publishAfterCategories);
-    bool readPostFromMap(BlogPost *post, const QMap<QString, QVariant> &postInfo);
-    bool readArgsFromPost(QList<QVariant> *args, const BlogPost &post);
+    bool readPostFromMap(BlogPost *post, const QMap<QString, QVariant> &postInfo) Q_DECL_OVERRIDE;
+    bool readArgsFromPost(QList<QVariant> *args, const BlogPost &post) Q_DECL_OVERRIDE;
     QMap<int, bool> mPublishAfterCategories;
     QList<BlogPost *> mCreatePostCache;
     QList<BlogPost *> mModifyPostCache;

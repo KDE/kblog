@@ -48,10 +48,10 @@ public:
                                  const QVariant &id);
     Q_DECLARE_PUBLIC(MetaWeblog)
 
-    QList<QVariant> defaultArgs(const QString &id = QString());
-    bool readPostFromMap(BlogPost *post, const QMap<QString, QVariant> &postInfo);
-    bool readArgsFromPost(QList<QVariant> *args, const BlogPost &post);
-    QString getCallFromFunction(FunctionToCall type);
+    QList<QVariant> defaultArgs(const QString &id = QString()) Q_DECL_OVERRIDE;
+    bool readPostFromMap(BlogPost *post, const QMap<QString, QVariant> &postInfo) Q_DECL_OVERRIDE;
+    bool readArgsFromPost(QList<QVariant> *args, const BlogPost &post) Q_DECL_OVERRIDE;
+    QString getCallFromFunction(FunctionToCall type) Q_DECL_OVERRIDE;
     bool mCatLoaded;
 };
 

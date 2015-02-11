@@ -83,14 +83,14 @@ public:
     /**
       Returns the  of the inherited object.
     */
-    QString interfaceName() const;
+    QString interfaceName() const Q_DECL_OVERRIDE;
 
     /**
        Set the Url of the server.
 
        @param server is the server Url.
     */
-    void setUrl(const QUrl &server);
+    void setUrl(const QUrl &server) Q_DECL_OVERRIDE;
 
     /**
         Get information about the user from the blog. Note: This is not
@@ -114,7 +114,7 @@ public:
       @see     void fetchPost( KBlog::BlogPost *post )
       @see     BlogPost::Status
     */
-    void listRecentPosts(int number);
+    void listRecentPosts(int number) Q_DECL_OVERRIDE;
 
     /**
       Fetch a post from the server.
@@ -125,7 +125,7 @@ public:
       @see BlogPost::setPostId( const QString& )
       @see fetchedPost( KBlog::BlogPost *post )
     */
-    void fetchPost(KBlog::BlogPost *post);
+    void fetchPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
     /**
       Modify a post on server.
@@ -135,7 +135,7 @@ public:
 
       @see  void modifiedPost( KBlog::BlogPost *post )
     */
-    void modifyPost(KBlog::BlogPost *post);
+    void modifyPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
     /**
       Create a new post on server.
@@ -144,7 +144,7 @@ public:
 
       @see createdPost( KBlog::BlogPost *post )
     */
-    void createPost(KBlog::BlogPost *post);
+    void createPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
     /**
       Remove a post from the server.
@@ -155,7 +155,7 @@ public:
       @see BlogPost::setPostId( const QString& )
       @see removedPost( KBlog::BlogPost *post )
     */
-    void removePost(KBlog::BlogPost *post);
+    void removePost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
 

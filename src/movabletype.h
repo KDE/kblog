@@ -78,7 +78,7 @@ public:
     /**
       Returns the  of the inherited object.
     */
-    QString interfaceName() const;
+    QString interfaceName() const Q_DECL_OVERRIDE;
 
     /**
       List recent posts on the server. The status of the posts will be Fetched.
@@ -88,7 +88,7 @@ public:
       @see     void listedRecentPosts( const QList\<KBlog::BlogPost\>& )
       @see     BlogPost::Status
     */
-    void listRecentPosts(int number);
+    void listRecentPosts(int number) Q_DECL_OVERRIDE;
 
     /**
       Get the list of trackback pings from the server.
@@ -102,11 +102,11 @@ public:
     */
     virtual void listTrackBackPings(KBlog::BlogPost *post);
 
-    void createPost(KBlog::BlogPost *post);
+    void createPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
-    void modifyPost(KBlog::BlogPost *post);
+    void modifyPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
-    void fetchPost(KBlog::BlogPost *post);
+    void fetchPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
     /**

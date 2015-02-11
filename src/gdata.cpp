@@ -485,7 +485,7 @@ bool GDataPrivate::authenticate()
             QDateTime::currentDateTime().toTime_t() - mAuthenticationTime.toTime_t() > TIMEOUT ||
             mAuthenticationString.isEmpty()) {
         KIO::Job *job = KIO::http_post(authGateway, QByteArray(), KIO::HideProgressInfo);
-        if (KIO::NetAccess::synchronousRun(job, (QWidget *)0, &data, &authGateway)) {
+        if (KIO::NetAccess::synchronousRun(job, (QWidget *)Q_NULLPTR, &data, &authGateway)) {
             QRegExp rx(QStringLiteral("Auth=(.+)"));
             if (rx.indexIn(QLatin1String(data)) != -1) {
                 qCDebug(KBLOG_LOG) << "RegExp got authentication string:" << rx.cap(1);

@@ -188,7 +188,7 @@ void Blogger1::removePost(KBlog::BlogPost *post)
 }
 
 Blogger1Private::Blogger1Private() :
-    mXmlRpcClient(0)
+    mXmlRpcClient(Q_NULLPTR)
 {
     qCDebug(KBLOG_LOG);
     mCallCounter = 1;
