@@ -46,7 +46,7 @@ public:
     QMap<KJob *, KBlog::BlogPost *> mModifyPostMap;
     WordpressBuggyPrivate();
     virtual ~WordpressBuggyPrivate();
-    virtual QList<QVariant> defaultArgs(const QString &id = QString()) Q_DECL_OVERRIDE;
+    QList<QVariant> defaultArgs(const QString &id = QString()) Q_DECL_OVERRIDE;
 
     //adding these two lines prevents the symbols from MovableTypePrivate
     //to be hidden by the symbols below that.
