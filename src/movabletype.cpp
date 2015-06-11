@@ -388,6 +388,7 @@ void MovableTypePrivate::slotGetPostCategories(const QList<QVariant> &result, co
         QList<QString> newCatList;
         QList<QVariant>::ConstIterator it = categoryList.constBegin();
         QList<QVariant>::ConstIterator end = categoryList.constEnd();
+        newCatList.reserve(categoryList.count());
         for (; it != end; it++) {
             newCatList << (*it).toMap()[ QStringLiteral("categoryName") ].toString();
         }
