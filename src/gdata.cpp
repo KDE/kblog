@@ -932,8 +932,8 @@ void GDataPrivate::slotCreateComment(KJob *job)
 
     Q_Q(GData);
 
-    KBlog::BlogComment *comment = mCreateCommentMap[ job ].values().first();
-    KBlog::BlogPost *post = mCreateCommentMap[ job ].keys().first();
+    KBlog::BlogComment *comment = mCreateCommentMap[ job ].cbegin().value();
+    KBlog::BlogPost *post = mCreateCommentMap[ job ].cbegin().key();
     mCreateCommentMap.remove(job);
 
     if (job->error() != 0) {
@@ -989,8 +989,8 @@ void GDataPrivate::slotRemoveComment(KJob *job)
 
     Q_Q(GData);
 
-    KBlog::BlogComment *comment = mRemoveCommentMap[ job ].values().first();
-    KBlog::BlogPost *post = mRemoveCommentMap[ job ].keys().first();
+    KBlog::BlogComment *comment = mRemoveCommentMap[ job ].cbegin().value();
+    KBlog::BlogPost *post = mRemoveCommentMap[ job ].cbegin().key();
     mRemoveCommentMap.remove(job);
 
     if (job->error() != 0) {
