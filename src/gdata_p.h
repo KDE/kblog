@@ -59,15 +59,15 @@ public:
     bool authenticate();
     virtual void slotFetchProfileId(KJob *);
     virtual void slotListBlogs(Syndication::Loader *,
-                               Syndication::FeedPtr, Syndication::ErrorCode);
+                               const Syndication::FeedPtr &, Syndication::ErrorCode);
     virtual void slotListComments(Syndication::Loader *,
-                                  Syndication::FeedPtr, Syndication::ErrorCode);
+                                  const Syndication::FeedPtr &, Syndication::ErrorCode);
     virtual void slotListAllComments(Syndication::Loader *,
-                                     Syndication::FeedPtr, Syndication::ErrorCode);
+                                     const Syndication::FeedPtr &, Syndication::ErrorCode);
     virtual void slotListRecentPosts(Syndication::Loader *,
-                                     Syndication::FeedPtr, Syndication::ErrorCode);
+                                     const Syndication::FeedPtr &, Syndication::ErrorCode);
     virtual void slotFetchPost(Syndication::Loader *,
-                               Syndication::FeedPtr, Syndication::ErrorCode);
+                               const Syndication::FeedPtr &, Syndication::ErrorCode);
     virtual void slotCreatePost(KJob *);
     virtual void slotModifyPost(KJob *);
     virtual void slotRemovePost(KJob *);

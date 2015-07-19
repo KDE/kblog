@@ -529,7 +529,7 @@ void GDataPrivate::slotFetchProfileId(KJob *job)
 }
 
 void GDataPrivate::slotListBlogs(Syndication::Loader *loader,
-                                 Syndication::FeedPtr feed,
+                                 const Syndication::FeedPtr &feed,
                                  Syndication::ErrorCode status)
 {
     qCDebug(KBLOG_LOG);
@@ -569,7 +569,7 @@ void GDataPrivate::slotListBlogs(Syndication::Loader *loader,
 }
 
 void GDataPrivate::slotListComments(Syndication::Loader *loader,
-                                    Syndication::FeedPtr feed,
+                                    const Syndication::FeedPtr &feed,
                                     Syndication::ErrorCode status)
 {
     qCDebug(KBLOG_LOG);
@@ -617,7 +617,7 @@ void GDataPrivate::slotListComments(Syndication::Loader *loader,
 }
 
 void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
-                                       Syndication::FeedPtr feed,
+                                       const Syndication::FeedPtr &feed,
                                        Syndication::ErrorCode status)
 {
     qCDebug(KBLOG_LOG);
@@ -664,7 +664,7 @@ void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
 }
 
 void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
-                                       Syndication::FeedPtr feed,
+                                       const Syndication::FeedPtr &feed,
                                        Syndication::ErrorCode status)
 {
     qCDebug(KBLOG_LOG);
@@ -733,7 +733,7 @@ void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
 }
 
 void GDataPrivate::slotFetchPost(Syndication::Loader *loader,
-                                 Syndication::FeedPtr feed,
+                                 const Syndication::FeedPtr &feed,
                                  Syndication::ErrorCode status)
 {
     qCDebug(KBLOG_LOG);

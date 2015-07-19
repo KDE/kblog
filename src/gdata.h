@@ -304,19 +304,19 @@ private:
                    void slotFetchProfileId(KJob *))
     Q_PRIVATE_SLOT(d_func(),
                    void slotListBlogs(Syndication::Loader *,
-                                      Syndication::FeedPtr, Syndication::ErrorCode))
+                                      const Syndication::FeedPtr &, Syndication::ErrorCode))
     Q_PRIVATE_SLOT(d_func(),
                    void slotListComments(Syndication::Loader *,
-                                         Syndication::FeedPtr, Syndication::ErrorCode))
+                                         const Syndication::FeedPtr &, Syndication::ErrorCode))
     Q_PRIVATE_SLOT(d_func(),
                    void slotListAllComments(Syndication::Loader *,
-                                            Syndication::FeedPtr, Syndication::ErrorCode))
+                                            const Syndication::FeedPtr &, Syndication::ErrorCode))
     Q_PRIVATE_SLOT(d_func(),
                    void slotListRecentPosts(Syndication::Loader *,
-                                            Syndication::FeedPtr, Syndication::ErrorCode))
+                                            const Syndication::FeedPtr &, Syndication::ErrorCode))
     Q_PRIVATE_SLOT(d_func(),
                    void slotFetchPost(Syndication::Loader *,
-                                      Syndication::FeedPtr, Syndication::ErrorCode))
+                                      const Syndication::FeedPtr &, Syndication::ErrorCode))
     Q_PRIVATE_SLOT(d_func(),
                    void slotCreatePost(KJob *))
     Q_PRIVATE_SLOT(d_func(),
