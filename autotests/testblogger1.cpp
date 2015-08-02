@@ -30,8 +30,8 @@
 #include <ktimezone.h>
 #include <kdatetime.h>
 
-#define TIMEOUT 20000
-#define GLOBALTIMEOUT 140000
+#define TIMEOUT 10000
+#define GLOBALTIMEOUT 70000
 #define DOWNLOADCOUNT 5
 
 using namespace KBlog;
