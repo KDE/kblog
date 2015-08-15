@@ -268,7 +268,7 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
 
 QString WordpressBuggy::interfaceName() const
 {
-    return QLatin1String("Movable Type");
+    return QStringLiteral("Movable Type");
 }
 
 WordpressBuggyPrivate::WordpressBuggyPrivate()

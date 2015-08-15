@@ -58,7 +58,7 @@ Blogger1::~Blogger1()
 
 QString Blogger1::interfaceName() const
 {
-    return QLatin1String("Blogger 1.0");
+    return QStringLiteral("Blogger 1.0");
 }
 
 void Blogger1::setUrl(const QUrl &server)

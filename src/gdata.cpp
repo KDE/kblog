@@ -57,7 +57,7 @@ GData::~GData()
 QString GData::interfaceName() const
 {
     qCDebug(KBLOG_LOG);
-    return QLatin1String("Google Blogger Data");
+    return QStringLiteral("Google Blogger Data");
 }
 
 QString GData::fullName() const
@@ -163,8 +163,8 @@ void GData::listComments(KBlog::BlogPost *post)
             SIGNAL(loadingComplete(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)),
             this,
             SLOT(slotListComments(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)));
-    loader->loadFrom(QUrl(QString(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QLatin1Char('/') +
-                                  post->postId() + QStringLiteral("/comments/default"))));
+    loader->loadFrom(QUrl(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QLatin1Char('/') +
+                                  post->postId() + QStringLiteral("/comments/default")));
 }
 
 void GData::listAllComments()

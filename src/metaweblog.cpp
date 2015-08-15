@@ -58,7 +58,7 @@ MetaWeblog::~MetaWeblog()
 
 QString MetaWeblog::interfaceName() const
 {
-    return QLatin1String("MetaWeblog");
+    return QStringLiteral("MetaWeblog");
 }
 
 void MetaWeblog::listCategories()

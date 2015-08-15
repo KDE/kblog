@@ -56,7 +56,7 @@ MovableType::~MovableType()
 
 QString MovableType::interfaceName() const
 {
-    return QLatin1String("Movable Type");
+    return QStringLiteral("Movable Type");
 }
 
 void MovableType::listRecentPosts(int number)
