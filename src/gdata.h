@@ -23,9 +23,9 @@
 #define KBLOG_GDATA_H
 
 #include <blog.h>
-#include <kdatetime.h>
 
-#include <QtCore/QStringList>
+#include <QDateTime>
+#include <QStringList>
 
 class QUrl;
 
@@ -176,10 +176,10 @@ public:
       @see     void fetchPost( KBlog::BlogPost* )
     */
     virtual void listRecentPosts(const QStringList &label = QStringList(), int number = 0,
-                                 const KDateTime &upMinTime = KDateTime(),
-                                 const KDateTime &upMaxTime = KDateTime(),
-                                 const KDateTime &pubMinTime = KDateTime(),
-                                 const KDateTime &pubMaxTime = KDateTime());
+                                 const QDateTime &upMinTime = QDateTime(),
+                                 const QDateTime &upMaxTime = QDateTime(),
+                                 const QDateTime &pubMinTime = QDateTime(),
+                                 const QDateTime &pubMaxTime = QDateTime());
 
     /**
       Fetch the Post with a specific id.

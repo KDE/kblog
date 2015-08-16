@@ -30,7 +30,7 @@
 
 template <class T, class S> class QMap;
 
-class KTimeZone;
+class QTimeZone;
 class QUrl;
 
 /**
@@ -194,14 +194,14 @@ public:
       @param timeZone the time zone of the server.
       @see timeZone()
     */
-    virtual void setTimeZone(const KTimeZone &timeZone);
+    virtual void setTimeZone(const QTimeZone &timeZone);
 
     /**
       Get the time zone of the blog's server.
 
       @see void setTimeZone()
     */
-    KTimeZone timeZone();
+    QTimeZone timeZone();
 
     /**
       List a number of recent posts from the server.

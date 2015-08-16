@@ -28,7 +28,7 @@
 #include <QtCore/QString>
 #include <QtCore/QtAlgorithms>
 
-class KDateTime;
+class QDateTime;
 class QUrl;
 
 namespace KBlog
@@ -170,7 +170,7 @@ public:
 
       @see setModificationDateTime( const KDateTime& )
     */
-    KDateTime modificationDateTime() const;
+    QDateTime modificationDateTime() const;
 
     /**
       Sets the modification date-time.
@@ -178,7 +178,7 @@ public:
 
       @see modificationDateTime( const KDateTime& )
     */
-    void setModificationDateTime(const KDateTime &datetime);
+    void setModificationDateTime(const QDateTime &datetime);
 
     /**
       Returns the creation date-time.
@@ -186,7 +186,7 @@ public:
 
       @see setCreationDateTime( const KDateTime& )
     */
-    KDateTime creationDateTime() const;
+    QDateTime creationDateTime() const;
 
     /**
       Sets the creation date-time.
@@ -194,7 +194,7 @@ public:
 
       @see creationDateTime()
     */
-    void setCreationDateTime(const KDateTime &datetime);
+    void setCreationDateTime(const QDateTime &datetime);
 
     /**
       The enumartion of the different post status, reflecting the status changes

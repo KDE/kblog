@@ -25,12 +25,12 @@
 #include "kblog/blogpost.h"
 #include "kblog/blogcomment.h"
 
-#include <qtest.h>
+#include <QTest>
+#include <QTimer>
+#include <QDateTime>
+#include <QTimeZone>
 
 #include <unistd.h>
-#include <ktimezone.h>
-#include <kdatetime.h>
-#include <QTimer>
 
 #define TIMEOUT 10000
 #define GLOBALTIMEOUT 70000
@@ -124,9 +124,9 @@ void TestGData::dumpPost(const BlogPost *post)
         break;
     };
     qDebug() << "# creationDateTime(UTC): "
-             << post->creationDateTime().toUtc().toString();
+             << post->creationDateTime().toUTC().toString();
     qDebug() << "# modificationDateTime(UTC): "
-             << post->modificationDateTime().toUtc().toString();
+             << post->modificationDateTime().toUTC().toString();
     qDebug() << "###########################";
 }
 
@@ -158,9 +158,9 @@ void TestGData::dumpComment(const BlogComment *comment)
         break;
     };
     qDebug() << "# creationDateTime(UTC): "
-             << comment->creationDateTime().toUtc().toString();
+             << comment->creationDateTime().toUTC().toString();
     qDebug() << "# modificationDateTime(UTC): "
-             << comment->modificationDateTime().toUtc().toString();
+             << comment->modificationDateTime().toUTC().toString();
     qDebug() << "###########################";
 }
 
@@ -388,7 +388,7 @@ void TestGData::testValidity()
     b->setProfileId(QLatin1String("11235141638164909615"));
     b->setPassword(QLatin1String("Wo ist Hans?"));
     b->setBlogId(QLatin1String("4662848212819772532"));
-    b->setTimeZone(KTimeZone(QLatin1String("UTC")));
+    b->setTimeZone(QTimeZone("UTC"));
     QVERIFY(b->url() == QUrl(QLatin1String("http://blogger2test.blogspot.com")));
     QVERIFY(b->blogId() == QLatin1String("4662848212819772532"));
     QVERIFY(b->fullName() == QLatin1String("Santa Claus"));
@@ -396,13 +396,13 @@ void TestGData::testValidity()
     QVERIFY(b->profileId() == QLatin1String("11235141638164909615"));
     QVERIFY(b->password() == QLatin1String("Wo ist Hans?"));
     QVERIFY(b->interfaceName() == QLatin1String("Google Blogger Data"));
-    QVERIFY(b->timeZone().name() == QLatin1String("UTC"));
+    QVERIFY(b->timeZone().id() == "UTC");
 }
 
 void TestGData::testNetwork()
 {
-    KDateTime mCDateTime(mCreationDateTime);
-    KDateTime mMDateTime(mModificationDateTime);
+    QDateTime mCDateTime(mCreationDateTime);
+    QDateTime mMDateTime(mModificationDateTime);
     p = new BlogPost(); // no need to delete later ;-)
     p->setTitle(mTitle);
     p->setContent(mContent);

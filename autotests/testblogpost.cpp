@@ -19,12 +19,9 @@
   Boston, MA 02110-1301, USA.
 */
 
-#include <QtTest>
-#include <QtCore>
+#include <QTest>
 
-#include <qtest.h>
 #include "kblog/blogpost.h"
-#include "kdatetime.h"
 
 Q_DECLARE_METATYPE(KBlog::BlogPost::Status)
 
@@ -57,8 +54,8 @@ void testBlogPost::testValidity_data()
     QTest::addColumn<QString>("mood");
     QTest::addColumn<QString>("music");
     QTest::addColumn<QStringList>("categories");
-    QTest::addColumn<KDateTime>("creationDateTime");
-    QTest::addColumn<KDateTime>("modificationDateTime");
+    QTest::addColumn<QDateTime>("creationDateTime");
+    QTest::addColumn<QDateTime>("modificationDateTime");
     QTest::addColumn<BlogPost::Status>("status");
     QTest::addColumn<QString>("error");
 
@@ -77,8 +74,8 @@ void testBlogPost::testValidity_data()
             << QStringList(QLatin1String("Tags"))   //<< url
             << QString::fromLatin1("Mood") << QString::fromLatin1("Music")
             << QStringList(QLatin1String("Category"))
-            << KDateTime(QDateTime::currentDateTime())
-            << KDateTime(QDateTime::currentDateTime())
+            << QDateTime::currentDateTime()
+            << QDateTime::currentDateTime()
             << BlogPost::New
             << QString::fromLatin1("Error");
 }
@@ -102,8 +99,8 @@ void testBlogPost::testValidity()
     QFETCH(QString, mood);
     QFETCH(QString, music);
     QFETCH(QStringList, categories);
-    QFETCH(KDateTime, creationDateTime);
-    QFETCH(KDateTime, modificationDateTime);
+    QFETCH(QDateTime, creationDateTime);
+    QFETCH(QDateTime, modificationDateTime);
     QFETCH(BlogPost::Status, status);
     QFETCH(QString, error);
     p.setPostId(postId);

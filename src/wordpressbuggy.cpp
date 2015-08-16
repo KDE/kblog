@@ -108,7 +108,7 @@ void WordpressBuggy::createPost(KBlog::BlogPost *post)
 
         xmlMarkup += QStringLiteral("<name>dateCreated</name>");
         xmlMarkup += QStringLiteral("<value><dateTime.iso8601>") +
-                     post->creationDateTime().dateTime().toUTC().toString(QStringLiteral("yyyyMMddThh:mm:ss")) +
+                     post->creationDateTime().toUTC().toString(QStringLiteral("yyyyMMddThh:mm:ss")) +
                      QStringLiteral("</dateTime.iso8601></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_allow_comments</name>");
@@ -209,12 +209,12 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
 
         xmlMarkup += QStringLiteral("<name>lastModified</name>");
         xmlMarkup += QStringLiteral("<value><dateTime.iso8601>") +
-                     post->modificationDateTime().dateTime().toUTC().toString(QStringLiteral("yyyyMMddThh:mm:ss")) +
+                     post->modificationDateTime().toUTC().toString(QStringLiteral("yyyyMMddThh:mm:ss")) +
                      QStringLiteral("</dateTime.iso8601></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>dateCreated</name>");
         xmlMarkup += QStringLiteral("<value><dateTime.iso8601>") +
-                     post->creationDateTime().dateTime().toUTC().toString(QStringLiteral("yyyyMMddThh:mm:ss")) +
+                     post->creationDateTime().toUTC().toString(QStringLiteral("yyyyMMddThh:mm:ss")) +
                      QStringLiteral("</dateTime.iso8601></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_allow_comments</name>");

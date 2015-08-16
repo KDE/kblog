@@ -17,7 +17,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
 set(KF5_VERSION "5.12.0")
-set(KBLOG_LIB_VERSION "4.79.0")
+set(KBLOG_LIB_VERSION "4.80.0")
 set(CALENDARCORE_LIB_VERSION "4.79.0")
 set(SYNDICATION_LIB_VERSION "4.79.0")
 set(XMLRPCCLIENT_LIB_VERSION "4.79.0")
@@ -28,7 +28,6 @@ ecm_setup_version(${KBLOG_LIB_VERSION} VARIABLE_PREFIX KBLOG
 
 ########### Find packages ###########
 find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
 find_package(Qt5WebKitWidgets ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 

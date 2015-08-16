@@ -30,7 +30,6 @@
 
 #include "kblog_debug.h"
 #include <KLocalizedString>
-#include <KDateTime>
 
 #include <QtCore/QStringList>
 
@@ -464,16 +463,14 @@ bool MovableTypePrivate::readPostFromMap(BlogPost *post, const QMap<QString, QVa
     qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
     qCDebug(KBLOG_LOG) << endl;
 
-    KDateTime dt =
-        KDateTime(postInfo[QStringLiteral("dateCreated")].toDateTime(), KDateTime::UTC);
+    QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
-        post->setCreationDateTime(dt.toLocalZone());
+        post->setCreationDateTime(dt.toLocalTime());
     }
 
-    dt =
-        KDateTime(postInfo[QStringLiteral("lastModified")].toDateTime(), KDateTime::UTC);
+    dt = postInfo[QStringLiteral("lastModified")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
-        post->setModificationDateTime(dt.toLocalZone());
+        post->setModificationDateTime(dt.toLocalTime());
     }
 
     post->setPostId(postInfo[QStringLiteral("postid")].toString().isEmpty() ? postInfo[QStringLiteral("postId")].toString() :
@@ -571,7 +568,7 @@ bool MovableTypePrivate::readArgsFromPost(QList<QVariant> *args, const BlogPost 
         map[QStringLiteral("mt_text_more")] = post.additionalContent();
     }
     map[QStringLiteral("title")] = post.title();
-    map[QStringLiteral("dateCreated")] = post.creationDateTime().dateTime().toUTC();
+    map[QStringLiteral("dateCreated")] = post.creationDateTime().toUTC();
     map[QStringLiteral("mt_allow_comments")] = (int)post.isCommentAllowed();
     map[QStringLiteral("mt_allow_pings")] = (int)post.isTrackBackAllowed();
     map[QStringLiteral("mt_excerpt")] = post.summary();

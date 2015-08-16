@@ -31,7 +31,7 @@
 
 class QStringList;
 
-class KDateTime;
+class QDateTime;
 class QUrl;
 
 namespace KBlog
@@ -356,7 +356,7 @@ public:
 
       @see setCreationDateTime()
     */
-    KDateTime creationDateTime() const;
+    QDateTime creationDateTime() const;
 
     /**
       Sets the creation time. This is used by most Blogs and is generally
@@ -365,7 +365,7 @@ public:
 
       @see creationTime()
     */
-    void setCreationDateTime(const KDateTime &datetime);
+    void setCreationDateTime(const QDateTime &datetime);
 
     /**
       Returns the modification date time.
@@ -373,7 +373,7 @@ public:
 
       @see setModificationDateTime(), creationDateTime()
     */
-    KDateTime modificationDateTime() const;
+    QDateTime modificationDateTime() const;
 
     /**
       Sets the modification time.
@@ -381,7 +381,7 @@ public:
 
       @see modificationTime(), setCreationDateTime()
     */
-    void setModificationDateTime(const KDateTime &datetime);
+    void setModificationDateTime(const QDateTime &datetime);
 
     /**
       The enumartion of the different post status, reflecting the status changes

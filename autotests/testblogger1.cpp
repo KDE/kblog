@@ -27,8 +27,8 @@
 #include <qtest.h>
 #include <QTimer>
 #include <unistd.h>
-#include <ktimezone.h>
-#include <kdatetime.h>
+#include <QDateTime>
+#include <QTimeZone>
 
 #define TIMEOUT 10000
 #define GLOBALTIMEOUT 70000
@@ -116,9 +116,9 @@ void TestBlogger1::dumpPost(const BlogPost *post)
         break;
     };
     qDebug() << "# creationDateTime(UTC): "
-             << post->creationDateTime().toUtc().toString();
+             << post->creationDateTime().toUTC().toString();
     qDebug() << "# modificationDateTime(UTC): "
-             << post->modificationDateTime().toUtc().toString();
+             << post->modificationDateTime().toUTC().toString();
     qDebug() << "###########################";
 }
 
@@ -307,7 +307,7 @@ void TestBlogger1::testValidity()
     // no need to delete later ;-):
     b = new Blogger1(QUrl(QLatin1String("http://wrong.url.org/somegateway")));
     QVERIFY(b->url() == QUrl(QLatin1String("http://wrong.url.org/somegateway")));
-    KTimeZone mTimeZone(KTimeZone(QLatin1String("UTC")));
+    QTimeZone mTimeZone("UTC");
     b->setUrl(mUrl);
     b->setUsername(mUsername);
     b->setPassword(mPassword);
@@ -318,13 +318,13 @@ void TestBlogger1::testValidity()
     QVERIFY(b->username() == mUsername);
     QVERIFY(b->password() == mPassword);
     QVERIFY(b->interfaceName() == QLatin1String("Blogger 1.0"));
-    QVERIFY(b->timeZone().name() == mTimeZone.name());
+    QVERIFY(b->timeZone().id() == mTimeZone.id());
 }
 
 void TestBlogger1::testNetwork()
 {
-    KDateTime mCDateTime(mCreationDateTime);
-    KDateTime mMDateTime(mModificationDateTime);
+    QDateTime mCDateTime(mCreationDateTime);
+    QDateTime mMDateTime(mModificationDateTime);
     p = new BlogPost(); // no need to delete later ;-)
     p->setTitle(mTitle);
     p->setContent(mContent);

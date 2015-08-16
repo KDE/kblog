@@ -23,9 +23,6 @@
 #include "blogcomment.h"
 #include "blogcomment_p.h"
 
-#include <KDateTime>
-#include <QUrl>
-
 namespace KBlog
 {
 
@@ -118,22 +115,22 @@ void BlogComment::setUrl(const QUrl &url)
     d_ptr->mUrl = url;
 }
 
-KDateTime BlogComment::modificationDateTime() const
+QDateTime BlogComment::modificationDateTime() const
 {
     return d_ptr->mModificationDateTime;
 }
 
-void BlogComment::setModificationDateTime(const KDateTime &datetime)
+void BlogComment::setModificationDateTime(const QDateTime &datetime)
 {
     d_ptr->mModificationDateTime = datetime;
 }
 
-KDateTime BlogComment::creationDateTime() const
+QDateTime BlogComment::creationDateTime() const
 {
     return d_ptr->mCreationDateTime;
 }
 
-void BlogComment::setCreationDateTime(const KDateTime &datetime)
+void BlogComment::setCreationDateTime(const QDateTime &datetime)
 {
     d_ptr->mCreationDateTime = datetime;
 }

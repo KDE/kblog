@@ -28,7 +28,6 @@
 
 #include "kblog_debug.h"
 #include <KLocalizedString>
-#include <KDateTime>
 
 using namespace KBlog;
 
@@ -95,7 +94,7 @@ void LiveJournal::createPost(KBlog::BlogPost *post)
     map.insert("event", post->content());   // Insert the post's content into the struct.
     map.insert("subject", post->title());   // Insert the post's subject into the struct.
     // TODO map.insert( "allowmask", post->categories() ); // We want to use the allowmask to use categories/tags
-    KDateTime date = post->creationDateTime(); // Get the date of the post's creation
+    const QDateTime date = post->creationDateTime(); // Get the date of the post's creation
     int year = date.toString("%Y").toInt();   // Get the year from the date using a format string and converting string to an integer
     int month = date.toString("%m").toInt();   // Get the month from the date using a format string and converting string to an integer
     int day = date.toString("%d").toInt();   // Get the day from the date using a format string and converting string to an integer
@@ -199,7 +198,7 @@ void LiveJournal::modifyPost(KBlog::BlogPost *post)
     map.insert("event", post->content());   // Insert the post's content into the struct.
     map.insert("subject", post->title());   // Insert the post's subject into the struct.
     // TODO map.insert( "allowmask", post->categories() ); // We want to use the allowmask to use categories/tags
-    KDateTime date = post->creationDateTime(); // Get the date of the post's creation
+    const QDateTime date = post->creationDateTime(); // Get the date of the post's creation
     int year = date.toString("%Y").toInt();   // Get the year from the date using a format string and converting string to an integer
     int month = date.toString("%m").toInt();   // Get the month from the date using a format string and converting string to an integer
     int day = date.toString("%d").toInt();   // Get the day from the date using a format string and converting string to an integer
@@ -230,7 +229,7 @@ void LiveJournal::removePost(KBlog::BlogPost *post)
     map.insert("event", QString());   // Insert no content into the struct to delete the post.
     map.insert("subject", post->title());   // Insert the post's subject into the struct.
     // TODO map.insert( "allowmask", post->categories() );
-    KDateTime date = post->creationDateTime(); // Get the date of the post's creation
+    const QDateTime date = post->creationDateTime(); // Get the date of the post's creation
     int year = date.toString("%Y").toInt();   // Get the year from the date using a format string and converting string to an integer
     int month = date.toString("%m").toInt();   // Get the month from the date using a format string and converting string to an integer
     int day = date.toString("%d").toInt();   // Get the day from the date using a format string and converting string to an integer

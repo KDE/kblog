@@ -25,7 +25,7 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QUrl>
-#include <ktimezone.h>
+#include <QTimeZone>
 #include <QtCore/QDateTime>
 
 QUrl mUrl(QLatin1String("http://kblogunittests.wordpress.com/xmlrpc.php"));

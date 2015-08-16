@@ -28,11 +28,9 @@
 #include <syndication/item.h>
 #include <syndication/category.h>
 
-#include <kio/netaccess.h>
 #include <kio/job.h>
 #include "kblog_debug.h"
 #include <KLocalizedString>
-#include <KDateTime>
 #include <QUrl>
 
 #include <QByteArray>
@@ -108,8 +106,8 @@ void GData::listBlogs()
 }
 
 void GData::listRecentPosts(const QStringList &labels, int number,
-                            const KDateTime &upMinTime, const KDateTime &upMaxTime,
-                            const KDateTime &pubMinTime, const KDateTime &pubMaxTime)
+                            const QDateTime &upMinTime, const QDateTime &upMaxTime,
+                            const QDateTime &pubMinTime, const QDateTime &pubMaxTime)
 {
     qCDebug(KBLOG_LOG);
     Q_D(GData);
@@ -121,19 +119,19 @@ void GData::listRecentPosts(const QStringList &labels, int number,
     QUrl url(urlString);
 
     if (!upMinTime.isNull()) {
-        url.addQueryItem(QStringLiteral("updated-min"), upMinTime.toString());
+        url.addQueryItem(QStringLiteral("updated-min"), upMinTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     if (!upMaxTime.isNull()) {
-        url.addQueryItem(QStringLiteral("updated-max"), upMaxTime.toString());
+        url.addQueryItem(QStringLiteral("updated-max"), upMaxTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     if (!pubMinTime.isNull()) {
-        url.addQueryItem(QStringLiteral("published-min"), pubMinTime.toString());
+        url.addQueryItem(QStringLiteral("published-min"), pubMinTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     if (!pubMaxTime.isNull()) {
-        url.addQueryItem(QStringLiteral("published-max"), pubMaxTime.toString());
+        url.addQueryItem(QStringLiteral("published-max"), pubMaxTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     Syndication::Loader *loader = Syndication::Loader::create();
@@ -484,8 +482,13 @@ bool GDataPrivate::authenticate()
     if (!mAuthenticationTime.isValid() ||
             QDateTime::currentDateTime().toTime_t() - mAuthenticationTime.toTime_t() > TIMEOUT ||
             mAuthenticationString.isEmpty()) {
-        KIO::Job *job = KIO::http_post(authGateway, QByteArray(), KIO::HideProgressInfo);
-        if (KIO::NetAccess::synchronousRun(job, (QWidget *)Q_NULLPTR, &data, &authGateway)) {
+        KIO::TransferJob *job = KIO::http_post(authGateway, QByteArray(), KIO::HideProgressInfo);
+        QObject::connect(job, &KIO::TransferJob::data,
+                         q, [&data](KIO::Job *, const QByteArray &newdata) {
+                            data.reserve(data.size() + newdata.size());
+                            qMemCopy(data.data() + data.size(), newdata.data(), newdata.size());
+                         });
+        if (job->exec()) {
             QRegExp rx(QStringLiteral("Auth=(.+)"));
             if (rx.indexIn(QLatin1String(data)) != -1) {
                 qCDebug(KBLOG_LOG) << "RegExp got authentication string:" << rx.cap(1);
@@ -604,12 +607,8 @@ void GDataPrivate::slotListComments(Syndication::Loader *loader,
         comment.setTitle((*it)->title());
         comment.setContent((*it)->content());
 //  FIXME: assuming UTC for now
-        comment.setCreationDateTime(
-            KDateTime(QDateTime::fromTime_t((*it)->datePublished()),
-                      KDateTime::Spec::UTC()));
-        comment.setModificationDateTime(
-            KDateTime(QDateTime::fromTime_t((*it)->dateUpdated()),
-                      KDateTime::Spec::UTC()));
+        comment.setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()));
+        comment.setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()));
         commentList.append(comment);
     }
     qCDebug(KBLOG_LOG) << "Emitting listedComments()";
@@ -651,12 +650,8 @@ void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
         comment.setTitle((*it)->title());
         comment.setContent((*it)->content());
 //  FIXME: assuming UTC for now
-        comment.setCreationDateTime(
-            KDateTime(QDateTime::fromTime_t((*it)->datePublished()),
-                      KDateTime::Spec::UTC()));
-        comment.setModificationDateTime(
-            KDateTime(QDateTime::fromTime_t((*it)->dateUpdated()),
-                      KDateTime::Spec::UTC()));
+        comment.setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()));
+        comment.setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()));
         commentList.append(comment);
     }
     qCDebug(KBLOG_LOG) << "Emitting listedAllComments()";
@@ -716,12 +711,8 @@ void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
         }
         post.setTags(labels);
 //  FIXME: assuming UTC for now
-        post.setCreationDateTime(
-            KDateTime(QDateTime::fromTime_t((*it)->datePublished()),
-                      KDateTime::Spec::UTC()).toLocalZone());
-        post.setModificationDateTime(
-            KDateTime(QDateTime::fromTime_t((*it)->dateUpdated()),
-                      KDateTime::Spec::UTC()).toLocalZone());
+        post.setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()));
+        post.setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()));
         post.setStatus(BlogPost::Fetched);
         postList.append(post);
         if (number-- == 0) {
@@ -768,12 +759,8 @@ void GDataPrivate::slotFetchPost(Syndication::Loader *loader,
             post->setContent((*it)->content());
             post->setStatus(BlogPost::Fetched);
             post->setLink(QUrl((*it)->link()));
-            post->setCreationDateTime(
-                KDateTime(QDateTime::fromTime_t((*it)->datePublished()),
-                          KDateTime::Spec::UTC()).toLocalZone());
-            post->setModificationDateTime(
-                KDateTime(QDateTime::fromTime_t((*it)->dateUpdated()),
-                          KDateTime::Spec::UTC()).toLocalZone());
+            post->setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()).toLocalTime());
+            post->setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()).toLocalTime());
             qCDebug(KBLOG_LOG) << "Emitting fetchedPost( postId=" << postId << ");";
             success = true;
             emit q->fetchedPost(post);
@@ -836,8 +823,8 @@ void GDataPrivate::slotCreatePost(KJob *job)
     qCDebug(KBLOG_LOG) << "QRegExp rx( '<updated>(.+)</updated>' ) matches" << rxUp.cap(1);
 
     post->setPostId(rxId.cap(1));
-    post->setCreationDateTime(KDateTime().fromString(rxPub.cap(1)).toLocalZone());
-    post->setModificationDateTime(KDateTime().fromString(rxUp.cap(1)));
+    post->setCreationDateTime(QDateTime::fromString(rxPub.cap(1)));
+    post->setModificationDateTime(QDateTime::fromString(rxUp.cap(1)));
     post->setStatus(BlogPost::Created);
     qCDebug(KBLOG_LOG) << "Emitting createdPost()";
     emit q->createdPost(post);
@@ -889,8 +876,8 @@ void GDataPrivate::slotModifyPost(KJob *job)
     }
     qCDebug(KBLOG_LOG) << "QRegExp rx( '<updated>(.+)</updated>' ) matches" << rxUp.cap(1);
     post->setPostId(rxId.cap(1));
-    post->setCreationDateTime(KDateTime().fromString(rxPub.cap(1)));
-    post->setModificationDateTime(KDateTime().fromString(rxUp.cap(1)));
+    post->setCreationDateTime(QDateTime::fromString(rxPub.cap(1)));
+    post->setModificationDateTime(QDateTime::fromString(rxUp.cap(1)));
     post->setStatus(BlogPost::Modified);
     emit q->modifiedPost(post);
 }
@@ -970,8 +957,8 @@ void GDataPrivate::slotCreateComment(KJob *job)
     }
     qCDebug(KBLOG_LOG) << "QRegExp rx( '<updated>(.+)</updated>' ) matches" << rxUp.cap(1);
     comment->setCommentId(rxId.cap(1));
-    comment->setCreationDateTime(KDateTime().fromString(rxPub.cap(1)));
-    comment->setModificationDateTime(KDateTime().fromString(rxUp.cap(1)));
+    comment->setCreationDateTime(QDateTime::fromString(rxPub.cap(1)));
+    comment->setModificationDateTime(QDateTime::fromString(rxUp.cap(1)));
     comment->setStatus(BlogComment::Created);
     qCDebug(KBLOG_LOG) << "Emitting createdComment()";
     emit q->createdComment(post, comment);

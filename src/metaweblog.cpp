@@ -29,7 +29,6 @@
 #include <kxmlrpcclient/client.h>
 #include "kblog_debug.h"
 #include <KLocalizedString>
-#include <KDateTime>
 
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
@@ -275,16 +274,14 @@ bool MetaWeblogPrivate::readPostFromMap(BlogPost *post,
     qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
     qCDebug(KBLOG_LOG) << endl;
 
-    KDateTime dt =
-        KDateTime(postInfo[QStringLiteral("dateCreated")].toDateTime(), KDateTime::UTC);
+    QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
-        post->setCreationDateTime(dt.toLocalZone());
+        post->setCreationDateTime(dt.toLocalTime());
     }
 
-    dt =
-        KDateTime(postInfo[QStringLiteral("lastModified")].toDateTime(), KDateTime::UTC);
+    dt = postInfo[QStringLiteral("lastModified")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
-        post->setModificationDateTime(dt.toLocalZone());
+        post->setModificationDateTime(dt.toLocalTime());
     }
 
     post->setPostId(postInfo[QStringLiteral("postid")].toString().isEmpty() ? postInfo[QStringLiteral("postId")].toString() :
@@ -312,8 +309,8 @@ bool MetaWeblogPrivate::readArgsFromPost(QList<QVariant> *args, const BlogPost &
     map[QStringLiteral("categories")] = post.categories();
     map[QStringLiteral("description")] = post.content();
     map[QStringLiteral("title")] = post.title();
-    map[QStringLiteral("lastModified")] = post.modificationDateTime().dateTime().toUTC();
-    map[QStringLiteral("dateCreated")] = post.creationDateTime().dateTime().toUTC();
+    map[QStringLiteral("lastModified")] = post.modificationDateTime().toUTC();
+    map[QStringLiteral("dateCreated")] = post.creationDateTime().toUTC();
     *args << map;
     *args << QVariant(!post.isPrivate());
     return true;

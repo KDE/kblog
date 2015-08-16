@@ -26,7 +26,7 @@
 #include "blogpost.h"
 
 #include <QtCore/QStringList>
-#include <kdatetime.h>
+#include <QDateTime>
 #include <QUrl>
 
 namespace KBlog
@@ -53,8 +53,8 @@ public:
     bool mTrackBackAllowed;
     QUrl mLink, mPermaLink;
     BlogPost::Status mStatus;
-    KDateTime mCreationDateTime;
-    KDateTime mModificationDateTime;
+    QDateTime mCreationDateTime;
+    QDateTime mModificationDateTime;
     QString cleanRichText(QString richText) const;
 };
 

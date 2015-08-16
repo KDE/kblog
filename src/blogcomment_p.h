@@ -25,7 +25,7 @@
 
 #include "blogcomment.h"
 
-#include <KDateTime>
+#include <QDateTime>
 #include <QUrl>
 
 namespace KBlog
@@ -43,8 +43,8 @@ public:
     QUrl mUrl;
     QString mError;
     BlogComment::Status mStatus;
-    KDateTime mModificationDateTime;
-    KDateTime mCreationDateTime;
+    QDateTime mModificationDateTime;
+    QDateTime mCreationDateTime;
 };
 
 } // namespace KBlog

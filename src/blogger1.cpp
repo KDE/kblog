@@ -469,13 +469,13 @@ bool Blogger1Private::readPostFromMap(
     qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
     qCDebug(KBLOG_LOG) << endl;
 
-    KDateTime dt(postInfo[QStringLiteral("dateCreated")].toDateTime(), KDateTime::UTC);
+    QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
-        post->setCreationDateTime(dt.toLocalZone());
+        post->setCreationDateTime(dt.toLocalTime());
     }
-    dt = KDateTime(postInfo[QStringLiteral("lastModified")].toDateTime(), KDateTime::UTC);
+    dt = postInfo[QStringLiteral("lastModified")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
-        post->setModificationDateTime(dt.toLocalZone());
+        post->setModificationDateTime(dt.toLocalTime());
     }
     post->setPostId(postInfo[QStringLiteral("postid")].toString().isEmpty() ? postInfo[QStringLiteral("postId")].toString() :
                     postInfo[QStringLiteral("postid")].toString());

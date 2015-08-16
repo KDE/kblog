@@ -24,8 +24,7 @@
 #include "blog.h"
 #include "blog_p.h"
 #include "blogpost_p.h"
-
-#include <kdeversion.h>
+#include "blog_config.h"
 
 #include "kblog_debug.h"
 
@@ -72,7 +71,7 @@ void Blog::setUserAgent(const QString &applicationName,
     } else {
         userAgent = QStringLiteral("KDE-KBlog/");
     }
-    userAgent += QLatin1String(KDE_VERSION_STRING);
+    userAgent += QStringLiteral(KDEPIMLIBS_VERSION);
     d->mUserAgent = userAgent;
 }
 
@@ -124,13 +123,13 @@ QUrl Blog::url() const
     return d->mUrl;
 }
 
-void Blog::setTimeZone(const KTimeZone &tz)
+void Blog::setTimeZone(const QTimeZone &tz)
 {
     Q_D(Blog);
     d->mTimeZone = tz;
 }
 
-KTimeZone Blog::timeZone()
+QTimeZone Blog::timeZone()
 {
     Q_D(const Blog);
     return d->mTimeZone;

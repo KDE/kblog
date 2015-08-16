@@ -4,7 +4,10 @@ find_package(Qt5Test CONFIG REQUIRED)
 
 ########### next target ###############
 
-ecm_add_tests( testblogcomment.cpp testblogger1.cpp testgdata.cpp testmetaweblog.cpp testmovabletype.cpp testwordpressbuggy.cpp testblogpost.cpp testblogmedia.cpp NAME_PREFIX "kblog-" LINK_LIBRARIES KF5Blog Qt5::Test)
+ecm_add_tests(testblogcomment.cpp testblogger1.cpp testgdata.cpp testmetaweblog.cpp testmovabletype.cpp testwordpressbuggy.cpp testblogpost.cpp testblogmedia.cpp
+    NAME_PREFIX "kblog-"
+    LINK_LIBRARIES KF5Blog Qt5::Test
+)
 
 # ########### next target ###############
 

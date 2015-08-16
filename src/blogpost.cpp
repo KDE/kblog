@@ -25,9 +25,6 @@
 
 #include "blog.h"
 
-#include <KDateTime>
-#include <QUrl>
-
 #include <QStringList>
 
 namespace KBlog
@@ -84,7 +81,7 @@ BlogPost::BlogPost(const KCalCore::Journal::Ptr &journal)
         d_ptr->mContent = journal->description();
     }
     d_ptr->mCategories = journal->categories();
-    d_ptr->mCreationDateTime = journal->dtStart();
+    d_ptr->mCreationDateTime = journal->dtStart().dateTime();
 }
 
 // BlogPost::BlogPost( const KCal::Journal &journal, BlogPostPrivate &dd )
@@ -119,7 +116,7 @@ KCalCore::Journal::Ptr BlogPost::journal(const Blog &blog) const
     journal->setSummary(d_ptr->mTitle);
     journal->setCategories(d_ptr->mCategories);
     journal->setDescription(d_ptr->mContent, true);
-    journal->setDtStart(d_ptr->mCreationDateTime);
+    journal->setDtStart(KDateTime(d_ptr->mCreationDateTime));
     journal->setCustomProperty("KBLOG", "URL", url);
     journal->setCustomProperty("KBLOG", "USER", blog.username());
     journal->setCustomProperty("KBLOG", "BLOG", blogId);
@@ -306,22 +303,22 @@ void BlogPost::setCategories(const QStringList &categories)
     d_ptr->mCategories = categories;
 }
 
-KDateTime BlogPost::creationDateTime() const
+QDateTime BlogPost::creationDateTime() const
 {
     return d_ptr->mCreationDateTime;
 }
 
-void BlogPost::setCreationDateTime(const KDateTime &datetime)
+void BlogPost::setCreationDateTime(const QDateTime &datetime)
 {
     d_ptr->mCreationDateTime = datetime;
 }
 
-KDateTime BlogPost::modificationDateTime() const
+QDateTime BlogPost::modificationDateTime() const
 {
     return d_ptr->mModificationDateTime;
 }
 
-void BlogPost::setModificationDateTime(const KDateTime &datetime)
+void BlogPost::setModificationDateTime(const QDateTime &datetime)
 {
     d_ptr->mModificationDateTime = datetime;
 }

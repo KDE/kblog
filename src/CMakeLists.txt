@@ -19,6 +19,8 @@ if( KF5GAPI_FOUND )
 endif()
 
 
+configure_file(blog_config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/blog_config.h @ONLY)
+
 add_library(KF5Blog ${kblog_SRCS})
 
 generate_export_header(KF5Blog BASE_NAME kblog)
@@ -31,7 +33,6 @@ target_include_directories(KF5Blog PUBLIC "$<BUILD_INTERFACE:${KBlog_SOURCE_DIR}
 target_link_libraries(KF5Blog
 PUBLIC
   KF5::Syndication
-  KF5::KDELibs4Support
   KF5::CalendarCore
 PRIVATE
   KF5::XmlRpcClient

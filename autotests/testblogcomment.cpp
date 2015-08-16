@@ -19,13 +19,13 @@
   Boston, MA 02110-1301, USA.
 */
 
-#include <QtTest>
-#include <QtCore>
+#include <QtTest/QTest>
 
-#include <qtest.h>
 #include "kblog/blogcomment.h"
-#include "qurl.h"
-#include "kdatetime.h"
+
+#include <QString>
+#include <QUrl>
+#include <QDateTime>
 
 Q_DECLARE_METATYPE(KBlog::BlogComment::Status)
 
@@ -51,8 +51,8 @@ void testBlogComment::testValidity_data()
     QTest::addColumn<QUrl>("url");
     QTest::addColumn<BlogComment::Status>("status");
     QTest::addColumn<QString>("error");
-    QTest::addColumn<KDateTime>("creationDateTime");
-    QTest::addColumn<KDateTime>("modificationDateTime");
+    QTest::addColumn<QDateTime>("creationDateTime");
+    QTest::addColumn<QDateTime>("modificationDateTime");
 
     QTest::newRow("SimpleTest")
             << QString::fromLatin1("ABC123")
@@ -63,8 +63,8 @@ void testBlogComment::testValidity_data()
             << QUrl(QLatin1String("http://my.link/in/outer/space/fancy/ABC123"))
             << BlogComment::New
             << QString::fromLatin1("Error")
-            << KDateTime(QDateTime::currentDateTime())
-            << KDateTime(QDateTime::currentDateTime());
+            << QDateTime::currentDateTime()
+            << QDateTime::currentDateTime();
 }
 
 void testBlogComment::testValidity()
@@ -79,8 +79,8 @@ void testBlogComment::testValidity()
     QFETCH(QUrl, url);
     QFETCH(BlogComment::Status, status);
     QFETCH(QString, error);
-    QFETCH(KDateTime, creationDateTime);
-    QFETCH(KDateTime, modificationDateTime);
+    QFETCH(QDateTime, creationDateTime);
+    QFETCH(QDateTime, modificationDateTime);
 
     p.setCommentId(commentId);
     p.setTitle(title);

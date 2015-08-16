@@ -24,11 +24,11 @@
 #include "kblog/livejournal.h"
 #include "kblog/blogpost.h"
 
-#include <qtest.h>
+#include <QTest>
+#include <QDateTime>
+#include <QTimeZone>
 
 #include <unistd.h>
-#include <ktimezone.h>
-#include <kdatetime.h>
 
 #define TIMEOUT 10000
 #define GLOBALTIMEOUT 70000
@@ -288,7 +288,7 @@ void TestLiveJournal::testValidity()
     // no need to delete later ;-):
     b = new LiveJournal(QUrl("http://wrong.url.org/somegateway"));
     QVERIFY(b->url() == QUrl("http://wrong.url.org/somegateway"));
-    KTimeZone mTimeZone(KTimeZone("UTC"));
+    QTimeZone mTimeZone("UTC");
     b->setUrl(mUrl);
     b->setUsername(mUsername);
     b->setPassword(mPassword);
@@ -304,8 +304,8 @@ void TestLiveJournal::testValidity()
 
 void TestLiveJournal::testNetwork()
 {
-    KDateTime mCDateTime(mCreationDateTime);
-    KDateTime mMDateTime(mModificationDateTime);
+    QDateTime mCDateTime(mCreationDateTime);
+    QDateTime mMDateTime(mModificationDateTime);
     p = new BlogPost(); // no need to delete later ;-)
     p->setTitle(mTitle);
     p->setContent(mContent);
