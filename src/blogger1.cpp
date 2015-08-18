@@ -383,7 +383,7 @@ void Blogger1Private::slotCreatePost(const QList<QVariant> &result, const QVaria
     if (result[0].type() == QVariant::String) {
         serverID = result[0].toString();
     } else if (result[0].type() == QVariant::Int) {
-        serverID = QString::fromLatin1("%1").arg(result[0].toInt());
+        serverID = QStringLiteral("%1").arg(result[0].toInt());
     }
     post->setPostId(serverID);
     post->setStatus(KBlog::BlogPost::Created);

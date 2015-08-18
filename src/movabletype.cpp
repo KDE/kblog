@@ -247,7 +247,7 @@ void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVa
         serverID = result[0].toString();
     }
     if (result[0].type() == QVariant::Int) {
-        serverID = QString::fromLatin1("%1").arg(result[0].toInt());
+        serverID = QStringLiteral("%1").arg(result[0].toInt());
     }
     post->setPostId(serverID);
     if (mSilentCreationList.contains(post)) {

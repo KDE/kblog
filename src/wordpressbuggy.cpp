@@ -112,10 +112,10 @@ void WordpressBuggy::createPost(KBlog::BlogPost *post)
                      QStringLiteral("</dateTime.iso8601></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_allow_comments</name>");
-        xmlMarkup += QString::fromLatin1("<value><int>%1</int></value>").arg((int)post->isCommentAllowed());
+        xmlMarkup += QStringLiteral("<value><int>%1</int></value>").arg((int)post->isCommentAllowed());
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_allow_pings</name>");
-        xmlMarkup += QString::fromLatin1("<value><int>%1</int></value>").arg((int)post->isTrackBackAllowed());
+        xmlMarkup += QStringLiteral("<value><int>%1</int></value>").arg((int)post->isTrackBackAllowed());
         xmlMarkup += QStringLiteral("</member><member>");
         if (!post->additionalContent().isEmpty()) {
             xmlMarkup += QStringLiteral("<name>mt_text_more</name>");
@@ -132,7 +132,7 @@ void WordpressBuggy::createPost(KBlog::BlogPost *post)
         xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->tags().join(QStringLiteral(",")) + QStringLiteral("]]></string></value>");
         xmlMarkup += QStringLiteral("</member></struct></param>");
         xmlMarkup += QStringLiteral("<param><value><boolean>") +
-                     QString::fromLatin1("%1").arg((int)(!post->isPrivate())) +
+                     QStringLiteral("%1").arg((int)(!post->isPrivate())) +
                      QStringLiteral("</boolean></value></param>");
         xmlMarkup += QStringLiteral("</params></methodCall>");
 
@@ -218,10 +218,10 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
                      QStringLiteral("</dateTime.iso8601></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_allow_comments</name>");
-        xmlMarkup += QString::fromLatin1("<value><int>%1</int></value>").arg((int)post->isCommentAllowed());
+        xmlMarkup += QStringLiteral("<value><int>%1</int></value>").arg((int)post->isCommentAllowed());
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_allow_pings</name>");
-        xmlMarkup += QString::fromLatin1("<value><int>%1</int></value>").arg((int)post->isTrackBackAllowed());
+        xmlMarkup += QStringLiteral("<value><int>%1</int></value>").arg((int)post->isTrackBackAllowed());
         xmlMarkup += QStringLiteral("</member><member>");
         if (!post->additionalContent().isEmpty()) {
             xmlMarkup += QStringLiteral("<name>mt_text_more</name>");
@@ -238,7 +238,7 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
         xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->tags().join(QStringLiteral(",")) + QStringLiteral("]]></string></value>");
         xmlMarkup += QStringLiteral("</member></struct></param>");
         xmlMarkup += QStringLiteral("<param><value><boolean>") +
-                     QString::fromLatin1("%1").arg((int)(!post->isPrivate())) +
+                     QStringLiteral("%1").arg((int)(!post->isPrivate())) +
                      QStringLiteral("</boolean></value></param>");
         xmlMarkup += QStringLiteral("</params></methodCall>");
 

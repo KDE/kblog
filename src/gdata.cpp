@@ -102,7 +102,7 @@ void GData::listBlogs()
             SIGNAL(loadingComplete(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)),
             this,
             SLOT(slotListBlogs(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)));
-    loader->loadFrom(QUrl(QString::fromLatin1("http://www.blogger.com/feeds/%1/blogs").arg(profileId())));
+    loader->loadFrom(QUrl(QStringLiteral("http://www.blogger.com/feeds/%1/blogs").arg(profileId())));
 }
 
 void GData::listRecentPosts(const QStringList &labels, int number,
@@ -173,7 +173,7 @@ void GData::listAllComments()
             SIGNAL(loadingComplete(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)),
             this,
             SLOT(slotListAllComments(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)));
-    loader->loadFrom(QUrl(QString::fromLatin1("http://www.blogger.com/feeds/%1/comments/default").arg(blogId())));
+    loader->loadFrom(QUrl(QStringLiteral("http://www.blogger.com/feeds/%1/comments/default").arg(blogId())));
 }
 
 void GData::fetchPost(KBlog::BlogPost *post)
@@ -193,7 +193,7 @@ void GData::fetchPost(KBlog::BlogPost *post)
             SIGNAL(loadingComplete(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)),
             this,
             SLOT(slotFetchPost(Syndication::Loader*,Syndication::FeedPtr,Syndication::ErrorCode)));
-    loader->loadFrom(QUrl(QString::fromLatin1("http://www.blogger.com/feeds/%1/posts/default").arg(blogId())));
+    loader->loadFrom(QUrl(QStringLiteral("http://www.blogger.com/feeds/%1/posts/default").arg(blogId())));
 }
 
 void GData::modifyPost(KBlog::BlogPost *post)
