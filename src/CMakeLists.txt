@@ -1,7 +1,6 @@
 remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
 
 set(kblog_SRCS
-   kblog_debug.cpp
    blog.cpp
    blogcomment.cpp
    blogmedia.cpp
@@ -18,6 +17,7 @@ if( KF5GAPI_FOUND )
    set(kblog_SRCS ${kblog_SRCS} blogger.cpp)
 endif()
 
+ecm_qt_declare_logging_category(kblog_SRCS HEADER kblog_debug.h IDENTIFIER KBLOG_LOG CATEGORY_NAME log_kblog)
 
 configure_file(blog_config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/blog_config.h @ONLY)
 
