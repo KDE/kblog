@@ -28,8 +28,6 @@
 #include <qtest.h>
 
 #include <unistd.h>
-#include <ktimezone.h>
-#include <kdatetime.h>
 #include <QTimer>
 #define TIMEOUT 10000
 #define GLOBALTIMEOUT 70000

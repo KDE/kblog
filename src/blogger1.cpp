@@ -28,7 +28,6 @@
 #include <kxmlrpcclient/client.h>
 
 #include "kblog_debug.h"
-#include <KDateTime>
 #include <KLocalizedString>
 
 #include <QList>

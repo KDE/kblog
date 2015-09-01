@@ -168,7 +168,7 @@ public:
       Returns the modification date-time.
       @return The modification date-time.
 
-      @see setModificationDateTime( const KDateTime& )
+      @see setModificationDateTime( const QDateTime& )
     */
     QDateTime modificationDateTime() const;
 
@@ -176,7 +176,7 @@ public:
       Sets the modification date-time.
       @param datetime The date-time the comment has been modified.
 
-      @see modificationDateTime( const KDateTime& )
+      @see modificationDateTime( const QDateTime& )
     */
     void setModificationDateTime(const QDateTime &datetime);
 
@@ -184,7 +184,7 @@ public:
       Returns the creation date-time.
       @return The creation date-time.
 
-      @see setCreationDateTime( const KDateTime& )
+      @see setCreationDateTime( const QDateTime& )
     */
     QDateTime creationDateTime() const;
 
