@@ -460,7 +460,7 @@ bool MovableTypePrivate::readPostFromMap(BlogPost *post, const QMap<QString, QVa
         return false;
     }
 
-    qCDebug(KBLOG_LOG) << endl << "Keys:" << postInfo.keys().join(QStringLiteral(", "));
+    qCDebug(KBLOG_LOG) << endl << "Keys:" << QStringList(postInfo.keys()).join(QStringLiteral(", "));
     qCDebug(KBLOG_LOG) << endl;
 
     QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();
