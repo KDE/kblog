@@ -226,10 +226,8 @@ void GData::modifyPost(KBlog::BlogPost *post)
     atomMarkup += QStringLiteral("<div xmlns='http://www.w3.org/1999/xhtml'>");
     atomMarkup += post->content();
     atomMarkup += QStringLiteral("</div></content>");
-    QList<QString>::ConstIterator it = post->tags().constBegin();
-    QList<QString>::ConstIterator end = post->tags().constEnd();
-    for (; it != end; ++it) {
-        atomMarkup += QStringLiteral("<category scheme='http://www.blogger.com/atom/ns#' term='") + (*it) + QStringLiteral("' />");
+    foreach (const QString &tag, post->tags()) {
+        atomMarkup += QStringLiteral("<category scheme='http://www.blogger.com/atom/ns#' term='") + tag + QStringLiteral("' />");
     }
     atomMarkup += QStringLiteral("<author>");
     if (!fullName().isEmpty()) {
