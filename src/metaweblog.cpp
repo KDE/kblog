@@ -189,15 +189,12 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
     } else {
         if (result[0].type() == QVariant::Map) {
             const QMap<QString, QVariant> serverMap = result[0].toMap();
-            const QList<QString> serverKeys = serverMap.keys();
-
-            QList<QString>::ConstIterator it = serverKeys.begin();
-            QList<QString>::ConstIterator end = serverKeys.end();
-            for (; it != end; ++it) {
-                qCDebug(KBLOG_LOG) << "MIDDLE:" << (*it);
+            for (auto it = serverMap.cbegin(), end = serverMap.cend(); it != end; ++it) {
+                const QString &key = it.key();
+                qCDebug(KBLOG_LOG) << "MIDDLE:" << key;
                 QMap<QString, QString> category;
-                const QMap<QString, QVariant> serverCategory = serverMap[*it].toMap();
-                category[QStringLiteral("name")] = (*it);
+                const QMap<QString, QVariant> serverCategory = it.value().toMap();
+                category[QStringLiteral("name")] = key;
                 category[QStringLiteral("description")] = serverCategory[ QStringLiteral("description") ].toString();
                 category[QStringLiteral("htmlUrl")] = serverCategory[ QStringLiteral("htmlUrl") ].toString();
                 category[QStringLiteral("rssUrl")] = serverCategory[ QStringLiteral("rssUrl") ].toString();
@@ -270,8 +267,8 @@ bool MetaWeblogPrivate::readPostFromMap(BlogPost *post,
     if (!post) {
         return false;
     }
-    QStringList mapkeys = postInfo.keys();
-    qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
+
+    qCDebug(KBLOG_LOG) << endl << "Keys:" << postInfo.keys().join(QStringLiteral(", "));
     qCDebug(KBLOG_LOG) << endl;
 
     QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();

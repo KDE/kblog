@@ -157,7 +157,7 @@ void TestWordpressBuggy::listBlogs(const QList<QMap<QString, QString> > &listedB
     QList<QMap<QString, QString> >::ConstIterator it = listedBlogs.begin();
     QList<QMap<QString, QString> >::ConstIterator end = listedBlogs.end();
     for (; it != end; ++it) {
-        qDebug() << "# " << (*it).keys().first() << ": " << (*it).values().first();
+        qDebug() << "# " << (*it).cbegin().key() << ": " << (*it).cbegin().value();
     }
     qDebug() << "###########################\n";
 

@@ -464,8 +464,8 @@ bool Blogger1Private::readPostFromMap(
     if (!post) {
         return false;
     }
-    QStringList mapkeys = postInfo.keys();
-    qCDebug(KBLOG_LOG) << endl << "Keys:" << mapkeys.join(QStringLiteral(", "));
+
+    qCDebug(KBLOG_LOG) << endl << "Keys:" << postInfo.keys().join(QStringLiteral(", "));
     qCDebug(KBLOG_LOG) << endl;
 
     QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();
