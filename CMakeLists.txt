@@ -17,11 +17,12 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 include(ECMQtDeclareLoggingCategory)
 
-set(KF5_VERSION "5.12.0")
+set(KF5_VERSION "5.14.0")
 set(KBLOG_LIB_VERSION "4.80.0")
 set(CALENDARCORE_LIB_VERSION "4.79.0")
 set(SYNDICATION_LIB_VERSION "4.79.0")
 set(XMLRPCCLIENT_LIB_VERSION "4.79.0")
+set(REQUIRED_QT_VERSION "5.4.0")
 ecm_setup_version(${KBLOG_LIB_VERSION} VARIABLE_PREFIX KBLOG
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kblog_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5BlogConfigVersion.cmake"
@@ -30,6 +31,7 @@ ecm_setup_version(${KBLOG_LIB_VERSION} VARIABLE_PREFIX KBLOG
 ########### Find packages ###########
 find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
+
 find_package(Qt5WebKitWidgets ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
 find_package(KF5CalendarCore ${CALENDARCORE_LIB_VERSION} CONFIG REQUIRED)
