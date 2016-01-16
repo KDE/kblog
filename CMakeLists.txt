@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(KBlog)
 
 # ECM setup
-find_package(ECM 5.14.0 CONFIG REQUIRED)
+find_package(ECM 5.17.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -17,11 +17,11 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 include(ECMQtDeclareLoggingCategory)
 
-set(KF5_VERSION "5.14.0")
-set(KBLOG_LIB_VERSION "4.80.0")
-set(CALENDARCORE_LIB_VERSION "4.79.0")
-set(SYNDICATION_LIB_VERSION "4.79.0")
-set(XMLRPCCLIENT_LIB_VERSION "4.79.0")
+set(KF5_VERSION "5.17.0")
+set(KBLOG_LIB_VERSION "5.1.40")
+set(CALENDARCORE_LIB_VERSION "5.1.40")
+set(SYNDICATION_LIB_VERSION "5.1.40")
+set(XMLRPCCLIENT_LIB_VERSION "5.1.40")
 set(REQUIRED_QT_VERSION "5.4.0")
 ecm_setup_version(${KBLOG_LIB_VERSION} VARIABLE_PREFIX KBLOG
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kblog_version.h"
