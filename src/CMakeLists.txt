@@ -59,7 +59,6 @@ ecm_generate_headers(KBlog_CamelCase_HEADERS
   MetaWeblog
   MovableType
   WordpressBuggy
-  ${kgapi_blogger}
   PREFIX KBlog
   REQUIRED_HEADERS KBlog_HEADERS
 )
