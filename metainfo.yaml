@@ -1,4 +1,5 @@
-maintainer: 
+fancyname: KBlog
+maintainer: dvratil
 description: A blogging library
 tier: 3
 type: functional
@@ -12,3 +13,7 @@ libraries:
    cmake: "KF5::Blog"
 cmakename: KF5Blog
 
+public_lib: true
+group: kdepim
+platforms:
+    - name: Linux
