@@ -17,7 +17,7 @@ if( KF5GAPI_FOUND )
    set(kblog_SRCS ${kblog_SRCS} blogger.cpp)
 endif()
 
-ecm_qt_declare_logging_category(kblog_SRCS HEADER kblog_debug.h IDENTIFIER KBLOG_LOG CATEGORY_NAME log_kblog)
+ecm_qt_declare_logging_category(kblog_SRCS HEADER kblog_debug.h IDENTIFIER KBLOG_LOG CATEGORY_NAME org.kde.pim.kblog)
 
 configure_file(blog_config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/blog_config.h @ONLY)
 
