@@ -135,7 +135,7 @@ QTimeZone Blog::timeZone()
     return d->mTimeZone;
 }
 
-BlogPrivate::BlogPrivate() : q_ptr(Q_NULLPTR)
+BlogPrivate::BlogPrivate() : q_ptr(nullptr)
 {
 }
 

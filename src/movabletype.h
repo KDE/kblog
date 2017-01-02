@@ -68,7 +68,7 @@ public:
       @param server is the url for the xmlrpc gateway.
       @param parent is the parent object.
     */
-    explicit MovableType(const QUrl &server, QObject *parent = Q_NULLPTR);
+    explicit MovableType(const QUrl &server, QObject *parent = nullptr);
 
     /**
       Destroy the object.
@@ -123,7 +123,7 @@ protected:
     /**
       Constructor needed for private inheritance.
     */
-    MovableType(const QUrl &server, MovableTypePrivate &dd, QObject *parent = Q_NULLPTR);
+    MovableType(const QUrl &server, MovableTypePrivate &dd, QObject *parent = nullptr);
 
 private:
     Q_DECLARE_PRIVATE(MovableType)
