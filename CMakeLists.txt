@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0)
+set(PIM_VERSION "5.4.40")
 
-project(KBlog)
+project(KBlog VERSION ${PIM_VERSION})
 
 # ECM setup
 set(KF5_VERSION "5.28.0")
@@ -19,14 +20,13 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 include(ECMCoverageOption)
 
-set(PIM_VERSION "5.4.40")
 
 set(KBLOG_LIB_VERSION ${PIM_VERSION})
 set(CALENDARCORE_LIB_VERSION "5.4.40")
 set(SYNDICATION_LIB_VERSION "5.4.40")
 set(XMLRPCCLIENT_LIB_VERSION "5.4.40")
 set(REQUIRED_QT_VERSION "5.4.0")
-ecm_setup_version(${KBLOG_LIB_VERSION} VARIABLE_PREFIX KBLOG
+ecm_setup_version(PROJECT VARIABLE_PREFIX KBLOG
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kblog_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5BlogConfigVersion.cmake"
                         SOVERSION 5)
