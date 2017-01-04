@@ -113,7 +113,7 @@ void GData::listRecentPosts(const QStringList &labels, int number,
     Q_D(GData);
     QString urlString(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QStringLiteral("/posts/default"));
     if (! labels.empty()) {
-        urlString += QStringLiteral("/-/") + labels.join(QStringLiteral("/"));
+        urlString += QStringLiteral("/-/") + labels.join(QLatin1Char('/'));
     }
     qCDebug(KBLOG_LOG) << "listRecentPosts()";
     QUrl url(urlString);

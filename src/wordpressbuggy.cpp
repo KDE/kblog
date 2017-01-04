@@ -129,7 +129,7 @@ void WordpressBuggy::createPost(KBlog::BlogPost *post)
         xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->summary() + QStringLiteral("]]></string></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_keywords</name>");
-        xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->tags().join(QStringLiteral(",")) + QStringLiteral("]]></string></value>");
+        xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->tags().join(QLatin1Char(',')) + QStringLiteral("]]></string></value>");
         xmlMarkup += QStringLiteral("</member></struct></param>");
         xmlMarkup += QStringLiteral("<param><value><boolean>") +
                      QStringLiteral("%1").arg((int)(!post->isPrivate())) +
@@ -235,7 +235,7 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
         xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->summary() + QStringLiteral("]]></string></value>");
         xmlMarkup += QStringLiteral("</member><member>");
         xmlMarkup += QStringLiteral("<name>mt_keywords</name>");
-        xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->tags().join(QStringLiteral(",")) + QStringLiteral("]]></string></value>");
+        xmlMarkup += QStringLiteral("<value><string><![CDATA[") + post->tags().join(QLatin1Char(',')) + QStringLiteral("]]></string></value>");
         xmlMarkup += QStringLiteral("</member></struct></param>");
         xmlMarkup += QStringLiteral("<param><value><boolean>") +
                      QStringLiteral("%1").arg((int)(!post->isPrivate())) +
