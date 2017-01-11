@@ -324,7 +324,7 @@ void TestGData::error(KBlog::Blog::ErrorType type, const QString &errStr,
         break;
     };
     qDebug() << "error: " << errStr;
-    if (post != 0) {
+    if (post != nullptr) {
         dumpPost(post);
     }
     qDebug() << "#############################\n";

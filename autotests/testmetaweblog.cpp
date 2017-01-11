@@ -280,7 +280,7 @@ void TestMetaWeblog::errorPost(KBlog::Blog::ErrorType type, const QString &errSt
         break;
     };
     qDebug() << "error: " << errStr;
-    if (post != 0) {
+    if (post != nullptr) {
         dumpPost(post);
     }
     qDebug() << "#############################\n";
