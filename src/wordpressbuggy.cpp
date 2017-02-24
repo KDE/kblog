@@ -141,12 +141,13 @@ void WordpressBuggy::createPost(KBlog::BlogPost *post)
         stream.writeRawData(xmlMarkup.toUtf8(), xmlMarkup.toUtf8().length());
 
         KIO::StoredTransferJob *job = KIO::storedHttpPost(postData, url(), KIO::HideProgressInfo);
+        if (!job) {
+            qCWarning(KBLOG_LOG) << "Failed to create job for: " << url().url();
+            return;
+        }
 
         d->mCreatePostMap[ job ] = post;
 
-        if (!job) {
-            qCWarning(KBLOG_LOG) << "Failed to create job for: " << url().url();
-        }
 
         job->addMetaData(
             QStringLiteral("customHTTPHeader"), QStringLiteral("X-hacker: Shame on you Wordpress, ") + QString() +
@@ -247,12 +248,13 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
         stream.writeRawData(xmlMarkup.toUtf8(), xmlMarkup.toUtf8().length());
 
         KIO::StoredTransferJob *job = KIO::storedHttpPost(postData, url(), KIO::HideProgressInfo);
+        if (!job) {
+            qCWarning(KBLOG_LOG) << "Failed to create job for: " << url().url();
+            return;
+        }
 
         d->mModifyPostMap[ job ] = post;
 
-        if (!job) {
-            qCWarning(KBLOG_LOG) << "Failed to create job for: " << url().url();
-        }
 
         job->addMetaData(
             QStringLiteral("customHTTPHeader"), QStringLiteral("X-hacker: Shame on you Wordpress, ") + QString() +

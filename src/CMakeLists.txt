@@ -13,7 +13,7 @@ set(kblog_SRCS
    blogpost.cpp
    )
 
-if( KF5GAPI_FOUND )
+if( KPimGAPI_FOUND )
    set(kblog_SRCS ${kblog_SRCS} blogger.cpp)
 endif()
 

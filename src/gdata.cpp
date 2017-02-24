@@ -340,13 +340,14 @@ void GData::removePost(KBlog::BlogPost *post)
     KIO::StoredTransferJob *job = KIO::storedHttpPost(postData,
                                   QUrl(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QStringLiteral("/posts/default/") + post->postId()),
                                   KIO::HideProgressInfo);
-
-    d->mRemovePostMap[ job ] = post;
-
     if (!job) {
         qCWarning(KBLOG_LOG) << "Unable to create KIO job for http://www.blogger.com/feeds/"
                              << blogId() << QStringLiteral("/posts/default/") + post->postId();
+        return;
     }
+
+    d->mRemovePostMap[ job ] = post;
+
 
     job->addMetaData(QStringLiteral("ConnectTimeout"), QStringLiteral("50"));
     job->addMetaData(QStringLiteral("UserAgent"), userAgent());
@@ -395,12 +396,13 @@ void GData::createComment(KBlog::BlogPost *post, KBlog::BlogComment *comment)
                                   QUrl(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QStringLiteral("/") + post->postId() + QStringLiteral("/comments/default")),
                                   KIO::HideProgressInfo);
 
-    d->mCreateCommentMap[ job ][post] = comment;
-
     if (!job) {
         qCWarning(KBLOG_LOG) << "Unable to create KIO job for http://www.blogger.com/feeds/"
                              << blogId() << "/" << post->postId() << "/comments/default";
+        return;
     }
+    d->mCreateCommentMap[ job ][post] = comment;
+
 
     job->addMetaData(QStringLiteral("content-type"), QStringLiteral("Content-Type: application/atom+xml; charset=utf-8"));
     job->addMetaData(QStringLiteral("ConnectTimeout"), QStringLiteral("50"));
