@@ -238,7 +238,7 @@ void GData::modifyPost(KBlog::BlogPost *post)
     atomMarkup += QStringLiteral("</entry>");
     QByteArray postData;
     QDataStream stream(&postData, QIODevice::WriteOnly);
-    stream.writeRawData(atomMarkup.toUtf8(), atomMarkup.toUtf8().length());
+    stream.writeRawData(atomMarkup.toUtf8().constData(), atomMarkup.toUtf8().length());
 
     KIO::StoredTransferJob *job = KIO::storedHttpPost(postData,
                                   QUrl(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QStringLiteral("/posts/default/") + post->postId()),
@@ -300,7 +300,7 @@ void GData::createPost(KBlog::BlogPost *post)
 
     QByteArray postData;
     QDataStream stream(&postData, QIODevice::WriteOnly);
-    stream.writeRawData(atomMarkup.toUtf8(), atomMarkup.toUtf8().length());
+    stream.writeRawData(atomMarkup.toUtf8().constData(), atomMarkup.toUtf8().length());
 
     KIO::StoredTransferJob *job = KIO::storedHttpPost(postData,
                                   QUrl(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QStringLiteral("/posts/default")),
@@ -390,7 +390,7 @@ void GData::createComment(KBlog::BlogPost *post, KBlog::BlogComment *comment)
     QByteArray postData;
     qCDebug(KBLOG_LOG) <<  postData;
     QDataStream stream(&postData, QIODevice::WriteOnly);
-    stream.writeRawData(atomMarkup.toUtf8(), atomMarkup.toUtf8().length());
+    stream.writeRawData(atomMarkup.toUtf8().constData(), atomMarkup.toUtf8().length());
 
     KIO::StoredTransferJob *job = KIO::storedHttpPost(postData,
                                   QUrl(QStringLiteral("http://www.blogger.com/feeds/") + blogId() + QStringLiteral("/") + post->postId() + QStringLiteral("/comments/default")),
@@ -511,7 +511,7 @@ void GDataPrivate::slotFetchProfileId(KJob *job)
     }
     Q_Q(GData);
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
     if (!job->error()) {
         QRegExp pid(QStringLiteral("http://www.blogger.com/profile/(\\d+)"));
         if (pid.indexIn(data) != -1) {
@@ -782,7 +782,7 @@ void GDataPrivate::slotCreatePost(KJob *job)
         return;
     }
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
 
     Q_Q(GData);
 
@@ -838,7 +838,7 @@ void GDataPrivate::slotModifyPost(KJob *job)
         return;
     }
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
 
     KBlog::BlogPost *post = mModifyPostMap[ job ];
     mModifyPostMap.remove(job);
@@ -890,7 +890,7 @@ void GDataPrivate::slotRemovePost(KJob *job)
         return;
     }
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
 
     KBlog::BlogPost *post = mRemovePostMap[ job ];
     mRemovePostMap.remove(job);
@@ -914,7 +914,7 @@ void GDataPrivate::slotCreateComment(KJob *job)
         return;
     }
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
     qCDebug(KBLOG_LOG) << "Dump data: " << data;
 
     Q_Q(GData);
@@ -972,7 +972,7 @@ void GDataPrivate::slotRemoveComment(KJob *job)
         return;
     }
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
 
     Q_Q(GData);
 

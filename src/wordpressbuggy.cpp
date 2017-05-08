@@ -138,7 +138,7 @@ void WordpressBuggy::createPost(KBlog::BlogPost *post)
 
         QByteArray postData;
         QDataStream stream(&postData, QIODevice::WriteOnly);
-        stream.writeRawData(xmlMarkup.toUtf8(), xmlMarkup.toUtf8().length());
+        stream.writeRawData(xmlMarkup.toUtf8().constData(), xmlMarkup.toUtf8().length());
 
         KIO::StoredTransferJob *job = KIO::storedHttpPost(postData, url(), KIO::HideProgressInfo);
         if (!job) {
@@ -245,7 +245,7 @@ void WordpressBuggy::modifyPost(KBlog::BlogPost *post)
 
         QByteArray postData;
         QDataStream stream(&postData, QIODevice::WriteOnly);
-        stream.writeRawData(xmlMarkup.toUtf8(), xmlMarkup.toUtf8().length());
+        stream.writeRawData(xmlMarkup.toUtf8().constData(), xmlMarkup.toUtf8().length());
 
         KIO::StoredTransferJob *job = KIO::storedHttpPost(postData, url(), KIO::HideProgressInfo);
         if (!job) {
@@ -299,7 +299,7 @@ void WordpressBuggyPrivate::slotCreatePost(KJob *job)
     qCDebug(KBLOG_LOG);
 
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
 
     Q_Q(WordpressBuggy);
 
@@ -349,7 +349,7 @@ void WordpressBuggyPrivate::slotModifyPost(KJob *job)
     qCDebug(KBLOG_LOG);
 
     KIO::StoredTransferJob *stj = qobject_cast<KIO::StoredTransferJob *>(job);
-    const QString data = QString::fromUtf8(stj->data(), stj->data().size());
+    const QString data = QString::fromUtf8(stj->data().constData(), stj->data().size());
 
     KBlog::BlogPost *post = mModifyPostMap[ job ];
     mModifyPostMap.remove(job);
