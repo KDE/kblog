@@ -65,7 +65,7 @@ public:
       @param server is the url for the xmlrpc gateway.
       @param parent is the parent object.
     */
-    explicit LiveJournal(const QUrl &server, QObject *parent = 0);
+    explicit LiveJournal(const QUrl &server, QObject *parent = nullptr);
 
     /**
       Destroy the object.
@@ -158,7 +158,7 @@ Q_SIGNALS:
     void fetchedUserInfo();
 
 protected:
-    LiveJournal(const QUrl &server, LiveJournalPrivate &dd, QObject *parent = 0);
+    LiveJournal(const QUrl &server, LiveJournalPrivate &dd, QObject *parent = nullptr);
 
 private:
     Q_DECLARE_PRIVATE(LiveJournal)
