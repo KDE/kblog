@@ -120,7 +120,7 @@ public:
     /**
       Returns the  of the inherited object.
     */
-    QString interfaceName() const Q_DECL_OVERRIDE;
+    QString interfaceName() const override;
 
     /**
       Get information about the profile from the blog.
@@ -161,7 +161,7 @@ public:
       @see     void fetchPost( KBlog::BlogPost* )
       @see     BlogPost::Status
     */
-    void listRecentPosts(int number) Q_DECL_OVERRIDE;
+    void listRecentPosts(int number) override;
 
     /**
       List recent posts on the server depending on meta information about the post.
@@ -188,13 +188,13 @@ public:
       @see BlogPost::setPostId( const QString& )
       @see fetchedPost( KBlog::BlogPost *post )
     */
-    void fetchPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
+    void fetchPost(KBlog::BlogPost *post) override;
 
     /**
       Modify a post on server.
       @param post This is used to send the modified post including the correct id.
     */
-    void modifyPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
+    void modifyPost(KBlog::BlogPost *post) override;
 
     /**
       Create a new post on server.
@@ -202,7 +202,7 @@ public:
 
       @see createdPost( KBlog::BlogPost *post )
     */
-    void createPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
+    void createPost(KBlog::BlogPost *post) override;
 
     /**
       Remove a post from the server.
@@ -211,7 +211,7 @@ public:
       @see BlogPost::setPostId( const QString& )
       @see removedPost( KBlog::BlogPost* )
     */
-    void removePost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
+    void removePost(KBlog::BlogPost *post) override;
 
     /**
       Create a comment on the server.

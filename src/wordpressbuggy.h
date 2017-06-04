@@ -86,7 +86,7 @@ public:
       Create a new post on server.
       @param post is send to the server.
     */
-    void createPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
+    void createPost(KBlog::BlogPost *post) override;
 
     /**
       Modify a post on server.
@@ -96,12 +96,12 @@ public:
       @see BlogPost::setPostId( const QString& )
       @see modifiedPost( KBlog::BlogPost* )
     */
-    void modifyPost(KBlog::BlogPost *post) Q_DECL_OVERRIDE;
+    void modifyPost(KBlog::BlogPost *post) override;
 
     /**
       Returns the  of the inherited object.
     */
-    QString interfaceName() const Q_DECL_OVERRIDE;
+    QString interfaceName() const override;
 
 protected:
     /**

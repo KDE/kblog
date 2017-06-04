@@ -83,7 +83,7 @@ public:
     /**
       Returns the  of the inherited object.
     */
-    QString interfaceName() const Q_DECL_OVERRIDE;
+    QString interfaceName() const override;
 
     /**
       List the categories of the blog.
