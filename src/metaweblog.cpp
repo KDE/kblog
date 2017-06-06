@@ -30,8 +30,8 @@
 #include "kblog_debug.h"
 #include <KLocalizedString>
 
-#include <QtCore/QFile>
-#include <QtCore/QDataStream>
+#include <QFile>
+#include <QDataStream>
 #include <QStandardPaths>
 #include <QDir>
 #include <QFileInfo>

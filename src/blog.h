@@ -26,7 +26,7 @@
 
 #include <kblog_export.h>
 
-#include <QtCore/QObject>
+#include <QObject>
 
 template <class T, class S> class QMap;
 

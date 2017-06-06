@@ -25,7 +25,7 @@
 
 #include "blogpost.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 #include <QDateTime>
 #include <QUrl>
 

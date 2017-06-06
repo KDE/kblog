@@ -27,7 +27,7 @@
 
 #include <QUrl>
 #include <kcalcore/journal.h>
-#include <QtCore/QtAlgorithms>
+#include <QtAlgorithms>
 
 class QStringList;
 

@@ -31,7 +31,7 @@
 #include "kblog_debug.h"
 #include <KLocalizedString>
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 using namespace KBlog;
 

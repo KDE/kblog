@@ -29,7 +29,7 @@
 
 #include <kio/job.h>
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 using namespace KBlog;
 

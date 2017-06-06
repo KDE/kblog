@@ -22,11 +22,11 @@
 #ifndef KBLOG_TEST_DATA_H_
 #define KBLOG_TEST_DATA_H_
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QTimeZone>
-#include <QtCore/QDateTime>
+#include <QDateTime>
 
 QUrl mUrl(QLatin1String("http://kblogunittests.wordpress.com/xmlrpc.php"));
 QString mUsername(QLatin1String("kblogunittests"));
