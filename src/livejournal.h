@@ -73,8 +73,8 @@ public:
     virtual ~LiveJournal();
 
     virtual void addFriend(const QString &username, int group,
-                           const QColor &fgcolor = QColor("#000000"),
-                           const QColor &bgcolor = QColor("#FFFFFF"));
+                           const QColor &fgcolor = QColor(0, 0, 0),
+                           const QColor &bgcolor = QColor(255, 255, 255));
 
     virtual void assignFriendToCategory(const QString &username, int category);
 
