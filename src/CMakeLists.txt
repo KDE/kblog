@@ -37,6 +37,7 @@ PRIVATE
   KF5::XmlRpcClient
   KF5::CoreAddons
   KF5::KIOCore
+  KF5::I18n
 )
 
 set_target_properties(KF5Blog PROPERTIES

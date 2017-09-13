@@ -29,6 +29,7 @@
 #include <QDateTime>
 #include <QTimeZone>
 #include <QTimer>
+#include <QDebug>
 
 #include <unistd.h>
 

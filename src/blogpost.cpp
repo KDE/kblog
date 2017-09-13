@@ -81,7 +81,7 @@ BlogPost::BlogPost(const KCalCore::Journal::Ptr &journal)
         d_ptr->mContent = journal->description();
     }
     d_ptr->mCategories = journal->categories();
-    d_ptr->mCreationDateTime = journal->dtStart().dateTime();
+    d_ptr->mCreationDateTime = journal->dtStart();
 }
 
 // BlogPost::BlogPost( const KCal::Journal &journal, BlogPostPrivate &dd )
@@ -116,7 +116,7 @@ KCalCore::Journal::Ptr BlogPost::journal(const Blog &blog) const
     journal->setSummary(d_ptr->mTitle);
     journal->setCategories(d_ptr->mCategories);
     journal->setDescription(d_ptr->mContent, true);
-    journal->setDtStart(KDateTime(d_ptr->mCreationDateTime));
+    journal->setDtStart(d_ptr->mCreationDateTime);
     journal->setCustomProperty("KBLOG", "URL", url);
     journal->setCustomProperty("KBLOG", "USER", blog.username());
     journal->setCustomProperty("KBLOG", "BLOG", blogId);

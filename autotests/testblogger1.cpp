@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <QDateTime>
 #include <QTimeZone>
+#include <QDebug>
 
 #define TIMEOUT 10000
 #define GLOBALTIMEOUT 70000

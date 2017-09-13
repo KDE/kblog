@@ -26,6 +26,7 @@
 #include "kblog/blogmedia.h"
 
 #include <qtest.h>
+#include <QDebug>
 
 #include <unistd.h>
 #include <QTimer>

@@ -32,6 +32,7 @@
 #include "kblog_debug.h"
 #include <KLocalizedString>
 #include <QUrl>
+#include <QUrlQuery>
 
 #include <QByteArray>
 #include <QRegExp>
@@ -117,22 +118,24 @@ void GData::listRecentPosts(const QStringList &labels, int number,
     }
     qCDebug(KBLOG_LOG) << "listRecentPosts()";
     QUrl url(urlString);
+    QUrlQuery q;
 
     if (!upMinTime.isNull()) {
-        url.addQueryItem(QStringLiteral("updated-min"), upMinTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
+        q.addQueryItem(QStringLiteral("updated-min"), upMinTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     if (!upMaxTime.isNull()) {
-        url.addQueryItem(QStringLiteral("updated-max"), upMaxTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
+        q.addQueryItem(QStringLiteral("updated-max"), upMaxTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     if (!pubMinTime.isNull()) {
-        url.addQueryItem(QStringLiteral("published-min"), pubMinTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
+        q.addQueryItem(QStringLiteral("published-min"), pubMinTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
 
     if (!pubMaxTime.isNull()) {
-        url.addQueryItem(QStringLiteral("published-max"), pubMaxTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
+        q.addQueryItem(QStringLiteral("published-max"), pubMaxTime.toUTC().toString(QStringLiteral("yyyy-MM-ddTHH:mm:ssZ")));
     }
+    url.setQuery(q);
 
     Syndication::Loader *loader = Syndication::Loader::create();
     if (number > 0) {
@@ -475,10 +478,12 @@ bool GDataPrivate::authenticate()
     Q_Q(GData);
     QByteArray data;
     QUrl authGateway(QStringLiteral("https://www.google.com/accounts/ClientLogin"));
-    authGateway.addQueryItem(QStringLiteral("Email"), q->username());
-    authGateway.addQueryItem(QStringLiteral("Passwd"), q->password());
-    authGateway.addQueryItem(QStringLiteral("source"), q->userAgent());
-    authGateway.addQueryItem(QStringLiteral("service"), QStringLiteral("blogger"));
+    QUrlQuery query;
+    query.addQueryItem(QStringLiteral("Email"), q->username());
+    query.addQueryItem(QStringLiteral("Passwd"), q->password());
+    query.addQueryItem(QStringLiteral("source"), q->userAgent());
+    query.addQueryItem(QStringLiteral("service"), QStringLiteral("blogger"));
+    authGateway.setQuery(query);
     if (!mAuthenticationTime.isValid() ||
             QDateTime::currentDateTime().toTime_t() - mAuthenticationTime.toTime_t() > TIMEOUT ||
             mAuthenticationString.isEmpty()) {
@@ -486,7 +491,7 @@ bool GDataPrivate::authenticate()
         QObject::connect(job, &KIO::TransferJob::data,
                          q, [&data](KIO::Job *, const QByteArray &newdata) {
                             data.reserve(data.size() + newdata.size());
-                            qMemCopy(data.data() + data.size(), newdata.data(), newdata.size());
+                            memcpy(data.data() + data.size(), newdata.data(), newdata.size());
                          });
         if (job->exec()) {
             QRegExp rx(QStringLiteral("Auth=(.+)"));

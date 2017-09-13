@@ -35,6 +35,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KBLOG
 ########### Find packages ###########
 find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
 
 find_package(KF5CalendarCore ${CALENDARCORE_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5Syndication ${SYNDICATION_LIB_VERSION} CONFIG REQUIRED)
