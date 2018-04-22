@@ -4,6 +4,7 @@ set(kblog_SRCS
    blogcomment.cpp
    blogmedia.cpp
    blogger1.cpp
+   feedretriever.cpp
    gdata.cpp
    # livejournal.cpp
    metaweblog.cpp
