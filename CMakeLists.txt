@@ -42,7 +42,7 @@ find_package(KF5Syndication ${SYNDICATION_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5XmlRpcClient ${XMLRPCCLIENT_LIB_VERSION} CONFIG REQUIRED)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libkblog5\")
-add_definitions(-DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT)
+
 ########### Targets ###########
 add_subdirectory(src)
 
