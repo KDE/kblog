@@ -22,7 +22,7 @@
 #include <QtTest>
 #include <QtCore>
 
-#include <qtest.h>
+#include <QTest>
 #include "kblog/blogmedia.h"
 #include "qurl.h"
 

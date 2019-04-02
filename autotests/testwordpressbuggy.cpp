@@ -25,7 +25,7 @@
 #include "kblog/blogpost.h"
 #include "kblog/blogmedia.h"
 
-#include <qtest.h>
+#include <QTest>
 #include <QDebug>
 
 #include <unistd.h>

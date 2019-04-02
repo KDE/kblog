@@ -24,7 +24,7 @@
 #include "kblog/blogger1.h"
 #include "kblog/blogpost.h"
 
-#include <qtest.h>
+#include <QTest>
 #include <QTimer>
 #include <unistd.h>
 #include <QDateTime>
