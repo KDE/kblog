@@ -230,7 +230,8 @@ void GData::modifyPost(KBlog::BlogPost *post)
     atomMarkup += QStringLiteral("<div xmlns='http://www.w3.org/1999/xhtml'>");
     atomMarkup += post->content();
     atomMarkup += QStringLiteral("</div></content>");
-    foreach (const QString &tag, post->tags()) {
+    const auto tags = post->tags();
+    for (const QString &tag : tags) {
         atomMarkup += QStringLiteral("<category scheme='http://www.blogger.com/atom/ns#' term='") + tag + QStringLiteral("' />");
     }
     atomMarkup += QStringLiteral("<author>");

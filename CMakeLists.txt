@@ -42,6 +42,10 @@ find_package(KF5Syndication ${SYNDICATION_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5XmlRpcClient ${XMLRPCCLIENT_LIB_VERSION} CONFIG REQUIRED)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libkblog5\")
+if (${KF5Config_VERSION} STRGREATER "5.56.0")
+        add_definitions(-DQT_NO_FOREACH)
+        MESSAGE(STATUS "compile without foreach")
+endif()
 
 ########### Targets ###########
 add_subdirectory(src)
