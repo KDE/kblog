@@ -4,7 +4,7 @@ set(PIM_VERSION "5.11.40")
 project(KBlog VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF5_MIN_VERSION "5.56.0")
+set(KF5_MIN_VERSION "5.57.0")
 
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -42,10 +42,7 @@ find_package(KF5Syndication ${SYNDICATION_LIB_VERSION} CONFIG REQUIRED)
 find_package(KF5XmlRpcClient ${XMLRPCCLIENT_LIB_VERSION} CONFIG REQUIRED)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libkblog5\")
-if (${KF5Config_VERSION} STRGREATER "5.56.0")
-        add_definitions(-DQT_NO_FOREACH)
-        MESSAGE(STATUS "compile without foreach")
-endif()
+add_definitions(-DQT_NO_FOREACH)
 
 ########### Targets ###########
 add_subdirectory(src)
