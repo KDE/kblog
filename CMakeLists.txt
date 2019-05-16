@@ -43,7 +43,7 @@ find_package(KF5XmlRpcClient ${XMLRPCCLIENT_LIB_VERSION} CONFIG REQUIRED)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libkblog5\")
 add_definitions(-DQT_NO_FOREACH)
-
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
 ########### Targets ###########
 add_subdirectory(src)
 

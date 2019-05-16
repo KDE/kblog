@@ -487,7 +487,7 @@ bool GDataPrivate::authenticate()
     query.addQueryItem(QStringLiteral("service"), QStringLiteral("blogger"));
     authGateway.setQuery(query);
     if (!mAuthenticationTime.isValid() ||
-            QDateTime::currentDateTime().toTime_t() - mAuthenticationTime.toTime_t() > TIMEOUT ||
+            QDateTime::currentDateTime().currentSecsSinceEpoch() - mAuthenticationTime.currentSecsSinceEpoch() > TIMEOUT ||
             mAuthenticationString.isEmpty()) {
         KIO::TransferJob *job = KIO::http_post(authGateway, QByteArray(), KIO::HideProgressInfo);
         QObject::connect(job, &KIO::TransferJob::data,
@@ -614,8 +614,8 @@ void GDataPrivate::slotListComments(Syndication::Loader *loader,
         comment.setTitle((*it)->title());
         comment.setContent((*it)->content());
 //  FIXME: assuming UTC for now
-        comment.setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()));
-        comment.setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()));
+        comment.setCreationDateTime(QDateTime::fromSecsSinceEpoch((*it)->datePublished()));
+        comment.setModificationDateTime(QDateTime::fromSecsSinceEpoch((*it)->dateUpdated()));
         commentList.append(comment);
     }
     qCDebug(KBLOG_LOG) << "Emitting listedComments()";
@@ -657,8 +657,8 @@ void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
         comment.setTitle((*it)->title());
         comment.setContent((*it)->content());
 //  FIXME: assuming UTC for now
-        comment.setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()));
-        comment.setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()));
+        comment.setCreationDateTime(QDateTime::fromSecsSinceEpoch((*it)->datePublished()));
+        comment.setModificationDateTime(QDateTime::fromSecsSinceEpoch((*it)->dateUpdated()));
         commentList.append(comment);
     }
     qCDebug(KBLOG_LOG) << "Emitting listedAllComments()";
@@ -718,8 +718,8 @@ void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
         }
         post.setTags(labels);
 //  FIXME: assuming UTC for now
-        post.setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()));
-        post.setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()));
+        post.setCreationDateTime(QDateTime::fromSecsSinceEpoch((*it)->datePublished()));
+        post.setModificationDateTime(QDateTime::fromSecsSinceEpoch((*it)->dateUpdated()));
         post.setStatus(BlogPost::Fetched);
         postList.append(post);
         if (number-- == 0) {
@@ -766,8 +766,8 @@ void GDataPrivate::slotFetchPost(Syndication::Loader *loader,
             post->setContent((*it)->content());
             post->setStatus(BlogPost::Fetched);
             post->setLink(QUrl((*it)->link()));
-            post->setCreationDateTime(QDateTime::fromTime_t((*it)->datePublished()).toLocalTime());
-            post->setModificationDateTime(QDateTime::fromTime_t((*it)->dateUpdated()).toLocalTime());
+            post->setCreationDateTime(QDateTime::fromSecsSinceEpoch((*it)->datePublished()).toLocalTime());
+            post->setModificationDateTime(QDateTime::fromSecsSinceEpoch((*it)->dateUpdated()).toLocalTime());
             qCDebug(KBLOG_LOG) << "Emitting fetchedPost( postId=" << postId << ");";
             success = true;
             emit q->fetchedPost(post);
