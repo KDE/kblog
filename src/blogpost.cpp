@@ -65,7 +65,7 @@ BlogPost::BlogPost(const QString &postId)
     d_ptr->mStatus = New;
 }
 
-BlogPost::BlogPost(const KCalCore::Journal::Ptr &journal)
+BlogPost::BlogPost(const KCalendarCore::Journal::Ptr &journal)
     : d_ptr(new BlogPostPrivate)
 {
     Q_ASSERT(journal);
@@ -103,7 +103,7 @@ BlogPost::~BlogPost()
     delete d_ptr;
 }
 
-KCalCore::Journal::Ptr BlogPost::journal(const Blog &blog) const
+KCalendarCore::Journal::Ptr BlogPost::journal(const Blog &blog) const
 {
     QString url = blog.url().url();
     QString username = blog.username();
@@ -111,7 +111,7 @@ KCalCore::Journal::Ptr BlogPost::journal(const Blog &blog) const
     // Generate unique ID. Should be unique enough...
     QString id = QStringLiteral("kblog-") + url + QLatin1Char('-') + blogId  + QLatin1Char('-') + username +
                  QLatin1Char('-') + d_ptr->mPostId;
-    KCalCore::Journal::Ptr journal(new KCalCore::Journal());
+    KCalendarCore::Journal::Ptr journal(new KCalendarCore::Journal());
     journal->setUid(id);
     journal->setSummary(d_ptr->mTitle);
     journal->setCategories(d_ptr->mCategories);

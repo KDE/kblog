@@ -26,7 +26,7 @@
 #include <kblog_export.h>
 
 #include <QUrl>
-#include <kcalcore/journal.h>
+#include <kcalendarcore/journal.h>
 #include <QtAlgorithms>
 
 class QStringList;
@@ -81,7 +81,7 @@ public:
     /** Constructor to create a blog post from a KCalCore Journal.
       @param journal The journal to use to create the post. Must not be null.
      */
-    explicit BlogPost(const KCalCore::Journal::Ptr &journal);
+    explicit BlogPost(const KCalendarCore::Journal::Ptr &journal);
 
     /**
       Virtual default destructor.
@@ -93,7 +93,7 @@ public:
       @param blog The blog object to convert.
       @return journal
      */
-    KCalCore::Journal::Ptr journal(const Blog &blog) const;
+    KCalendarCore::Journal::Ptr journal(const Blog &blog) const;
 
     /**
       Returns the ID used by the journal in creation, if created from a journal.
