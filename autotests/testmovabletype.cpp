@@ -98,7 +98,7 @@ void TestMovableType::dumpPost(const BlogPost *post)
     qDebug() << "# title: " << post->title();
     qDebug() << "# content: " << post->content();
     qDebug() << "# private: " << post->isPrivate();
-    qDebug() << "# categories: " << post->categories().join(QLatin1String(" "));
+    qDebug() << "# categories: " << post->categories().join(QLatin1Char(' '));
     qDebug() << "# error: " << post->error();
     qDebug() << "# journalId: " << post->journalId();
     qDebug() << "# allowTrackBack: " << post->isTrackBackAllowed();
