@@ -460,8 +460,20 @@ bool MovableTypePrivate::readPostFromMap(BlogPost *post, const QMap<QString, QVa
         return false;
     }
 
-    qCDebug(KBLOG_LOG) << endl << "Keys:" << QStringList(postInfo.keys()).join(QLatin1String(", "));
-    qCDebug(KBLOG_LOG) << endl;
+    qCDebug(KBLOG_LOG)
+        #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+            << endl
+           #else
+            << Qt::endl
+           #endif
+            << "Keys:" << QStringList(postInfo.keys()).join(QLatin1String(", "));
+    qCDebug(KBLOG_LOG)
+        #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+            << endl
+           #else
+            << Qt::endl
+           #endif
+               ;
 
     QDateTime dt = postInfo[QStringLiteral("dateCreated")].toDateTime();
     if (dt.isValid() && !dt.isNull()) {
