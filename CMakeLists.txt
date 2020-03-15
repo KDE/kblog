@@ -24,8 +24,8 @@ include(ECMQtDeclareLoggingCategory)
 
 
 set(KBLOG_LIB_VERSION ${PIM_VERSION})
-set(SYNDICATION_LIB_VERSION "5.13.40")
-set(XMLRPCCLIENT_LIB_VERSION "5.13.40")
+set(SYNDICATION_LIB_VERSION "5.13.80")
+set(XMLRPCCLIENT_LIB_VERSION "5.13.80")
 set(QT_REQUIRED_VERSION "5.12.0")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KBLOG
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kblog_version.h"
@@ -45,7 +45,7 @@ add_definitions(-DTRANSLATION_DOMAIN=\"libkblog5\")
 add_definitions(-DQT_NO_FOREACH)
 if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
    add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050e00)
-   add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x058000)
+   add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054400)
 endif()
 
 ########### Targets ###########
