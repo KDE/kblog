@@ -239,7 +239,7 @@ void Blogger1Private::slotFetchUserInfo(const QList<QVariant> &result, const QVa
     if (result[0].type() != QVariant::Map) {
         qCritical() << "Could not fetch user's info out of the result from the server,"
                     << "not a map.";
-        emit q->error(Blogger1::ParsingError,
+        Q_EMIT q->error(Blogger1::ParsingError,
                       i18n("Could not fetch user's info out of the result "
                            "from the server, not a map."));
         return;
@@ -252,7 +252,7 @@ void Blogger1Private::slotFetchUserInfo(const QList<QVariant> &result, const QVa
     userInfo[QStringLiteral("lastname")] = resultMap[QStringLiteral("lastname")].toString();
     userInfo[QStringLiteral("firstname")] = resultMap[QStringLiteral("firstname")].toString();
 
-    emit q->fetchedUserInfo(userInfo);
+    Q_EMIT q->fetchedUserInfo(userInfo);
 }
 
 void Blogger1Private::slotListBlogs(const QList<QVariant> &result, const QVariant &id)
@@ -266,7 +266,7 @@ void Blogger1Private::slotListBlogs(const QList<QVariant> &result, const QVarian
     if (result[0].type() != QVariant::List) {
         qCritical() << "Could not fetch blogs out of the result from the server,"
                     << "not a list.";
-        emit q->error(Blogger1::ParsingError,
+        Q_EMIT q->error(Blogger1::ParsingError,
                       i18n("Could not fetch blogs out of the result "
                            "from the server, not a list."));
         return;
@@ -286,7 +286,7 @@ void Blogger1Private::slotListBlogs(const QList<QVariant> &result, const QVarian
                            << ", Name =" << blogInfo[QStringLiteral("title")];
         blogsList << blogInfo;
     }
-    emit q->listedBlogs(blogsList);
+    Q_EMIT q->listedBlogs(blogsList);
 }
 
 void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const QVariant &id)
@@ -303,7 +303,7 @@ void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const Q
     if (result[0].type() != QVariant::List) {
         qCritical() << "Could not fetch list of posts out of the"
                     << "result from the server, not a list.";
-        emit q->error(Blogger1::ParsingError,
+        Q_EMIT q->error(Blogger1::ParsingError,
                       i18n("Could not fetch list of posts out of the result "
                            "from the server, not a list."));
         return;
@@ -323,14 +323,14 @@ void Blogger1Private::slotListRecentPosts(const QList<QVariant> &result, const Q
             fetchedPostList.append(post);
         } else {
             qCritical() << "readPostFromMap failed!";
-            emit q->error(Blogger1::ParsingError, i18n("Could not read post."));
+            Q_EMIT q->error(Blogger1::ParsingError, i18n("Could not read post."));
         }
         if (--count == 0) {
             break;
         }
     }
     qCDebug(KBLOG_LOG) << "Emitting listRecentPostsFinished()";
-    emit q->listedRecentPosts(fetchedPostList);
+    Q_EMIT q->listedRecentPosts(fetchedPostList);
 }
 
 void Blogger1Private::slotFetchPost(const QList<QVariant> &result, const QVariant &id)
@@ -349,12 +349,12 @@ void Blogger1Private::slotFetchPost(const QList<QVariant> &result, const QVarian
             readPostFromMap(post, result[0].toMap())) {
         qCDebug(KBLOG_LOG) << "Emitting fetchedPost()";
         post->setStatus(KBlog::BlogPost::Fetched);
-        emit q->fetchedPost(post);
+        Q_EMIT q->fetchedPost(post);
     } else {
         qCritical() << "Could not fetch post out of the result from the server.";
         post->setError(i18n("Could not fetch post out of the result from the server."));
         post->setStatus(BlogPost::Error);
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not fetch post out of the result from the server."), post);
     }
 }
@@ -373,7 +373,7 @@ void Blogger1Private::slotCreatePost(const QList<QVariant> &result, const QVaria
     if (result[0].type() != QVariant::String &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the postId, not a string or an integer.";
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the postId, not a string or an integer."),
                           post);
         return;
@@ -389,7 +389,7 @@ void Blogger1Private::slotCreatePost(const QList<QVariant> &result, const QVaria
     qCDebug(KBLOG_LOG) << "emitting createdPost()"
                        << "for title: \"" << post->title()
                        << "\" server id: " << serverID;
-    emit q->createdPost(post);
+    Q_EMIT q->createdPost(post);
 }
 
 void Blogger1Private::slotModifyPost(const QList<QVariant> &result, const QVariant &id)
@@ -406,7 +406,7 @@ void Blogger1Private::slotModifyPost(const QList<QVariant> &result, const QVaria
     if (result[0].type() != QVariant::Bool &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the result, not a boolean.";
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the result, not a boolean."),
                           post);
         return;
@@ -414,7 +414,7 @@ void Blogger1Private::slotModifyPost(const QList<QVariant> &result, const QVaria
     post->setStatus(KBlog::BlogPost::Modified);
     qCDebug(KBLOG_LOG) << "emitting modifiedPost() for title: \""
                        << post->title() << "\"";
-    emit q->modifiedPost(post);
+    Q_EMIT q->modifiedPost(post);
 }
 
 void Blogger1Private::slotRemovePost(const QList<QVariant> &result, const QVariant &id)
@@ -431,14 +431,14 @@ void Blogger1Private::slotRemovePost(const QList<QVariant> &result, const QVaria
     if (result[0].type() != QVariant::Bool &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the result, not a boolean.";
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the result, not a boolean."),
                           post);
         return;
     }
     post->setStatus(KBlog::BlogPost::Removed);
     qCDebug(KBLOG_LOG) << "emitting removedPost()";
-    emit q->removedPost(post);
+    Q_EMIT q->removedPost(post);
 }
 
 void Blogger1Private::slotError(int number,
@@ -451,9 +451,9 @@ void Blogger1Private::slotError(int number,
     BlogPost *post = mCallMap[ id.toInt() ];
 
     if (post) {
-        emit q->errorPost(Blogger1::XmlRpc, errorString, post);
+        Q_EMIT q->errorPost(Blogger1::XmlRpc, errorString, post);
     } else {
-        emit q->error(Blogger1::XmlRpc, errorString);
+        Q_EMIT q->error(Blogger1::XmlRpc, errorString);
     }
 }
 

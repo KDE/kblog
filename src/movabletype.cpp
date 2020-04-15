@@ -237,7 +237,7 @@ void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVa
     if (result[0].type() != QVariant::String &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the postId, not a string or an integer.";
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the postId, not a string or an integer."),
                           post);
         return;
@@ -258,7 +258,7 @@ void MovableTypePrivate::slotCreatePost(const QList<QVariant> &result, const QVa
                            << "for title: \"" << post->title()
                            << "\" server id: " << serverID;
         post->setStatus(KBlog::BlogPost::Created);
-        emit q->createdPost(post);
+        Q_EMIT q->createdPost(post);
     }
 }
 
@@ -279,7 +279,7 @@ void MovableTypePrivate::slotFetchPost(const QList<QVariant> &result, const QVar
         qCritical() << "Could not fetch post out of the result from the server.";
         post->setError(i18n("Could not fetch post out of the result from the server."));
         post->setStatus(BlogPost::Error);
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not fetch post out of the result from the server."), post);
     }
     if (post->categories().isEmpty()) {
@@ -294,7 +294,7 @@ void MovableTypePrivate::slotFetchPost(const QList<QVariant> &result, const QVar
     } else {
         qCDebug(KBLOG_LOG) << "Emitting fetchedPost()";
         post->setStatus(KBlog::BlogPost::Fetched);
-        emit q->fetchedPost(post);
+        Q_EMIT q->fetchedPost(post);
     }
 }
 
@@ -312,7 +312,7 @@ void MovableTypePrivate::slotModifyPost(const QList<QVariant> &result, const QVa
     if (result[0].type() != QVariant::Bool &&
             result[0].type() != QVariant::Int) {
         qCritical() << "Could not read the result, not a boolean.";
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the result, not a boolean."),
                           post);
         return;
@@ -320,7 +320,7 @@ void MovableTypePrivate::slotModifyPost(const QList<QVariant> &result, const QVa
     if (mSilentCreationList.contains(post)) {
         post->setStatus(KBlog::BlogPost::Created);
         mSilentCreationList.removeOne(post);
-        emit q->createdPost(post);
+        Q_EMIT q->createdPost(post);
     } else {
         if (!post->categories().isEmpty()) {
             setPostCategories(post, false);
@@ -376,12 +376,12 @@ void MovableTypePrivate::slotGetPostCategories(const QList<QVariant> &result, co
     mCallMap.remove(i);
 
     if (result[ 0 ].type() != QVariant::List) {
-        qCritical() << "Could not read the result, not a list. Category fetching failed! We will still emit fetched post now.";
-        emit q->errorPost(Blogger1::ParsingError,
+        qCritical() << "Could not read the result, not a list. Category fetching failed! We will still Q_EMIT fetched post now.";
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the result - is not a list. Category fetching failed."), post);
 
         post->setStatus(KBlog::BlogPost::Fetched);
-        emit q->fetchedPost(post);
+        Q_EMIT q->fetchedPost(post);
     } else {
         QList<QVariant> categoryList = result[ 0 ].toList();
         QList<QString> newCatList;
@@ -394,7 +394,7 @@ void MovableTypePrivate::slotGetPostCategories(const QList<QVariant> &result, co
         qCDebug(KBLOG_LOG) << "categories list: " << newCatList;
         post->setCategories(newCatList);
         post->setStatus(KBlog::BlogPost::Fetched);
-        emit q->fetchedPost(post);
+        Q_EMIT q->fetchedPost(post);
     }
 }
 
@@ -411,7 +411,7 @@ void MovableTypePrivate::slotSetPostCategories(const QList<QVariant> &result, co
 
     if (result[0].type() != QVariant::Bool) {
         qCritical() << "Could not read the result, not a boolean. Category setting failed! We will still publish if now if necessary. ";
-        emit q->errorPost(Blogger1::ParsingError,
+        Q_EMIT q->errorPost(Blogger1::ParsingError,
                           i18n("Could not read the result - is not a boolean value. Category setting failed.  Will still publish now if necessary."),
                           post);
     }
@@ -429,12 +429,12 @@ void MovableTypePrivate::slotSetPostCategories(const QList<QVariant> &result, co
                                << post->title() << "\"";
             post->setStatus(KBlog::BlogPost::Created);
             mSilentCreationList.removeOne(post);
-            emit q->createdPost(post);
+            Q_EMIT q->createdPost(post);
         } else {
             qCDebug(KBLOG_LOG) << "emitting modifiedPost() for title: \""
                                << post->title() << "\"";
             post->setStatus(KBlog::BlogPost::Modified);
-            emit q->modifiedPost(post);
+            Q_EMIT q->modifiedPost(post);
         }
     }
 }
@@ -544,7 +544,7 @@ void MovableTypePrivate::slotListTrackBackPings(
     if (result[0].type() != QVariant::List) {
         qCritical() << "Could not fetch list of trackback pings out of the"
                     << "result from the server.";
-        emit q->error(MovableType::ParsingError,
+        Q_EMIT q->error(MovableType::ParsingError,
                       i18n("Could not fetch list of trackback pings out of the "
                            "result from the server."));
         return;
@@ -562,7 +562,7 @@ void MovableTypePrivate::slotListTrackBackPings(
         trackBackList << tping;
     }
     qCDebug(KBLOG_LOG) << "Emitting listedTrackBackPings()";
-    emit q->listedTrackBackPings(post, trackBackList);
+    Q_EMIT q->listedTrackBackPings(post, trackBackList);
 }
 
 bool MovableTypePrivate::readArgsFromPost(QList<QVariant> *args, const BlogPost &post)

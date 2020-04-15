@@ -76,7 +76,7 @@ void MetaWeblog::createMedia(KBlog::BlogMedia *media)
     Q_D(MetaWeblog);
     if (!media) {
         qCritical() << "MetaWeblog::createMedia: media is a null pointer";
-        emit error(Other, i18n("Media is a null pointer."));
+        Q_EMIT error(Other, i18n("Media is a null pointer."));
         return;
     }
     unsigned int i = d->mCallMediaCounter++;
@@ -183,7 +183,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
         // include fix for not metaweblog standard compatible apis with
         // array of structs instead of struct of structs, e.g. wordpress
         qCritical() << "Could not list categories out of the result from the server.";
-        emit q->error(MetaWeblog::ParsingError,
+        Q_EMIT q->error(MetaWeblog::ParsingError,
                       i18n("Could not list categories out of the result "
                            "from the server."));
     } else {
@@ -203,7 +203,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
                 mCategoriesList.append(category);
             }
             qCDebug(KBLOG_LOG) << "Emitting listedCategories";
-            emit q->listedCategories(mCategoriesList);
+            Q_EMIT q->listedCategories(mCategoriesList);
         }
     }
     if (result[0].type() == QVariant::List) {
@@ -225,7 +225,7 @@ void MetaWeblogPrivate::slotListCategories(const QList<QVariant> &result,
             mCategoriesList.append(category);
         }
         qCDebug(KBLOG_LOG) << "Emitting listedCategories()";
-        emit q->listedCategories(mCategoriesList);
+        Q_EMIT q->listedCategories(mCategoriesList);
     }
     saveCategories();
 }
@@ -242,7 +242,7 @@ void MetaWeblogPrivate::slotCreateMedia(const QList<QVariant> &result,
     qCDebug(KBLOG_LOG) << "TOP:" << result[0].typeName();
     if (result[0].type() != 8) {
         qCritical() << "Could not read the result, not a map.";
-        emit q->errorMedia(MetaWeblog::ParsingError,
+        Q_EMIT q->errorMedia(MetaWeblog::ParsingError,
                            i18n("Could not read the result, not a map."),
                            media);
         return;
@@ -255,7 +255,7 @@ void MetaWeblogPrivate::slotCreateMedia(const QList<QVariant> &result,
         media->setUrl(QUrl(url));
         media->setStatus(BlogMedia::Created);
         qCDebug(KBLOG_LOG) << "Emitting createdMedia( url=" << url  << ");";
-        emit q->createdMedia(media);
+        Q_EMIT q->createdMedia(media);
     }
 }
 

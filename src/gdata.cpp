@@ -212,7 +212,7 @@ void GData::modifyPost(KBlog::BlogPost *post)
 
     if (!d->authenticate()) {
         qCritical() << "Authentication failed.";
-        emit errorPost(Atom, i18n("Authentication failed."), post);
+        Q_EMIT errorPost(Atom, i18n("Authentication failed."), post);
         return;
     }
 
@@ -276,7 +276,7 @@ void GData::createPost(KBlog::BlogPost *post)
 
     if (!d->authenticate()) {
         qCritical() << "Authentication failed.";
-        emit errorPost(Atom, i18n("Authentication failed."), post);
+        Q_EMIT errorPost(Atom, i18n("Authentication failed."), post);
         return;
     }
 
@@ -336,7 +336,7 @@ void GData::removePost(KBlog::BlogPost *post)
 
     if (!d->authenticate()) {
         qCritical() << "Authentication failed.";
-        emit errorPost(Atom, i18n("Authentication failed."), post);
+        Q_EMIT errorPost(Atom, i18n("Authentication failed."), post);
         return;
     }
 
@@ -381,7 +381,7 @@ void GData::createComment(KBlog::BlogPost *post, KBlog::BlogComment *comment)
     Q_D(GData);
     if (!d->authenticate()) {
         qCritical() << "Authentication failed.";
-        emit errorComment(Atom, i18n("Authentication failed."), post, comment);
+        Q_EMIT errorComment(Atom, i18n("Authentication failed."), post, comment);
         return;
     }
     QString atomMarkup = QStringLiteral("<entry xmlns='http://www.w3.org/2005/Atom'>");
@@ -437,7 +437,7 @@ void GData::removeComment(KBlog::BlogPost *post, KBlog::BlogComment *comment)
 
     if (!d->authenticate()) {
         qCritical() << "Authentication failed.";
-        emit errorComment(Atom, i18n("Authentication failed."), post, comment);
+        Q_EMIT errorComment(Atom, i18n("Authentication failed."), post, comment);
         return;
     }
 
@@ -524,17 +524,17 @@ void GDataPrivate::slotFetchProfileId(KJob *job)
         if (pid.indexIn(data) != -1) {
             q->setProfileId(pid.cap(1));
             qCDebug(KBLOG_LOG) << "QRegExp bid( 'http://www.blogger.com/profile/(\\d+)' matches" << pid.cap(1);
-            emit q->fetchedProfileId(pid.cap(1));
+            Q_EMIT q->fetchedProfileId(pid.cap(1));
         } else {
             qCritical() << "QRegExp bid( 'http://www.blogger.com/profile/(\\d+)' "
                         << " could not regexp the Profile ID";
-            emit q->error(GData::Other, i18n("Could not regexp the Profile ID."));
-            emit q->fetchedProfileId(QString());
+            Q_EMIT q->error(GData::Other, i18n("Could not regexp the Profile ID."));
+            Q_EMIT q->fetchedProfileId(QString());
         }
     } else {
         qCritical() << "Job Error: " << job->errorString();
-        emit q->error(GData::Other, job->errorString());
-        emit q->fetchedProfileId(QString());
+        Q_EMIT q->error(GData::Other, job->errorString());
+        Q_EMIT q->fetchedProfileId(QString());
     }
 }
 
@@ -549,7 +549,7 @@ void GDataPrivate::slotListBlogs(Syndication::Loader *loader,
         return;
     }
     if (status != Syndication::Success) {
-        emit q->error(GData::Atom, i18n("Could not get blogs."));
+        Q_EMIT q->error(GData::Atom, i18n("Could not get blogs."));
         return;
     }
 
@@ -571,11 +571,11 @@ void GDataPrivate::slotListBlogs(Syndication::Loader *loader,
         } else {
             qCritical() << "QRegExp rx( 'blog-(\\d+)' does not match anything in:"
                         << (*it)->id();
-            emit q->error(GData::Other, i18n("Could not regexp the blog id path."));
+            Q_EMIT q->error(GData::Other, i18n("Could not regexp the blog id path."));
         }
     }
     qCDebug(KBLOG_LOG) << "Emitting listedBlogs(); ";
-    emit q->listedBlogs(blogsList);
+    Q_EMIT q->listedBlogs(blogsList);
 }
 
 void GDataPrivate::slotListComments(Syndication::Loader *loader,
@@ -592,7 +592,7 @@ void GDataPrivate::slotListComments(Syndication::Loader *loader,
     mListCommentsMap.remove(loader);
 
     if (status != Syndication::Success) {
-        emit q->errorPost(GData::Atom, i18n("Could not get comments."), post);
+        Q_EMIT q->errorPost(GData::Atom, i18n("Could not get comments."), post);
         return;
     }
 
@@ -606,7 +606,7 @@ void GDataPrivate::slotListComments(Syndication::Loader *loader,
         QRegExp rx(QStringLiteral("post-(\\d+)"));
         if (rx.indexIn((*it)->id()) == -1) {
             qCritical() << "QRegExp rx( 'post-(\\d+)' does not match" << rx.cap(1);
-            emit q->error(GData::Other, i18n("Could not regexp the comment id path."));
+            Q_EMIT q->error(GData::Other, i18n("Could not regexp the comment id path."));
         } else {
             comment.setCommentId(rx.cap(1));
         }
@@ -619,7 +619,7 @@ void GDataPrivate::slotListComments(Syndication::Loader *loader,
         commentList.append(comment);
     }
     qCDebug(KBLOG_LOG) << "Emitting listedComments()";
-    emit q->listedComments(post, commentList);
+    Q_EMIT q->listedComments(post, commentList);
 }
 
 void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
@@ -634,7 +634,7 @@ void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
     }
 
     if (status != Syndication::Success) {
-        emit q->error(GData::Atom, i18n("Could not get comments."));
+        Q_EMIT q->error(GData::Atom, i18n("Could not get comments."));
         return;
     }
 
@@ -648,7 +648,7 @@ void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
         QRegExp rx(QStringLiteral("post-(\\d+)"));
         if (rx.indexIn((*it)->id()) == -1) {
             qCritical() << "QRegExp rx( 'post-(\\d+)' does not match" << rx.cap(1);
-            emit q->error(GData::Other, i18n("Could not regexp the comment id path."));
+            Q_EMIT q->error(GData::Other, i18n("Could not regexp the comment id path."));
         } else {
             comment.setCommentId(rx.cap(1));
         }
@@ -662,7 +662,7 @@ void GDataPrivate::slotListAllComments(Syndication::Loader *loader,
         commentList.append(comment);
     }
     qCDebug(KBLOG_LOG) << "Emitting listedAllComments()";
-    emit q->listedAllComments(commentList);
+    Q_EMIT q->listedAllComments(commentList);
 }
 
 void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
@@ -677,7 +677,7 @@ void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
     }
 
     if (status != Syndication::Success) {
-        emit q->error(GData::Atom, i18n("Could not get posts."));
+        Q_EMIT q->error(GData::Atom, i18n("Could not get posts."));
         return;
     }
     int number = 0;
@@ -697,7 +697,7 @@ void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
         QRegExp rx(QStringLiteral("post-(\\d+)"));
         if (rx.indexIn((*it)->id()) == -1) {
             qCritical() << "QRegExp rx( 'post-(\\d+)' does not match" << rx.cap(1);
-            emit q->error(GData::Other, i18n("Could not regexp the post id path."));
+            Q_EMIT q->error(GData::Other, i18n("Could not regexp the post id path."));
         } else {
             post.setPostId(rx.cap(1));
         }
@@ -727,7 +727,7 @@ void GDataPrivate::slotListRecentPosts(Syndication::Loader *loader,
         }
     }
     qCDebug(KBLOG_LOG) << "Emitting listedRecentPosts()";
-    emit q->listedRecentPosts(postList);
+    Q_EMIT q->listedRecentPosts(postList);
 }
 
 void GDataPrivate::slotFetchPost(Syndication::Loader *loader,
@@ -748,7 +748,7 @@ void GDataPrivate::slotFetchPost(Syndication::Loader *loader,
     post->postId();
 
     if (status != Syndication::Success) {
-        emit q->errorPost(GData::Atom, i18n("Could not get posts."), post);
+        Q_EMIT q->errorPost(GData::Atom, i18n("Could not get posts."), post);
         return;
     }
 
@@ -770,14 +770,14 @@ void GDataPrivate::slotFetchPost(Syndication::Loader *loader,
             post->setModificationDateTime(QDateTime::fromSecsSinceEpoch((*it)->dateUpdated()).toLocalTime());
             qCDebug(KBLOG_LOG) << "Emitting fetchedPost( postId=" << postId << ");";
             success = true;
-            emit q->fetchedPost(post);
+            Q_EMIT q->fetchedPost(post);
             break;
         }
     }
     if (!success) {
         qCritical() << "QRegExp rx( 'post-(\\d+)' does not match"
                     << mFetchPostMap[ loader ]->postId() << ".";
-        emit q->errorPost(GData::Other, i18n("Could not regexp the blog id path."), post);
+        Q_EMIT q->errorPost(GData::Other, i18n("Could not regexp the blog id path."), post);
     }
 }
 
@@ -798,14 +798,14 @@ void GDataPrivate::slotCreatePost(KJob *job)
 
     if (job->error() != 0) {
         qCritical() << "slotCreatePost error:" << job->errorString();
-        emit q->errorPost(GData::Atom, job->errorString(), post);
+        Q_EMIT q->errorPost(GData::Atom, job->errorString(), post);
         return;
     }
 
     QRegExp rxId(QStringLiteral("post-(\\d+)"));   //FIXME check and do better handling, esp the creation date time
     if (rxId.indexIn(data) == -1) {
         qCritical() << "Could not regexp the id out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the id out of the result."), post);
         return;
     }
@@ -814,7 +814,7 @@ void GDataPrivate::slotCreatePost(KJob *job)
     QRegExp rxPub(QStringLiteral("<published>(.+)</published>"));
     if (rxPub.indexIn(data) == -1) {
         qCritical() << "Could not regexp the published time out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the published time out of the result."), post);
         return;
     }
@@ -823,7 +823,7 @@ void GDataPrivate::slotCreatePost(KJob *job)
     QRegExp rxUp(QStringLiteral("<updated>(.+)</updated>"));
     if (rxUp.indexIn(data) == -1) {
         qCritical() << "Could not regexp the update time out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the update time out of the result."), post);
         return;
     }
@@ -834,7 +834,7 @@ void GDataPrivate::slotCreatePost(KJob *job)
     post->setModificationDateTime(QDateTime::fromString(rxUp.cap(1)));
     post->setStatus(BlogPost::Created);
     qCDebug(KBLOG_LOG) << "Emitting createdPost()";
-    emit q->createdPost(post);
+    Q_EMIT q->createdPost(post);
 }
 
 void GDataPrivate::slotModifyPost(KJob *job)
@@ -852,14 +852,14 @@ void GDataPrivate::slotModifyPost(KJob *job)
     Q_Q(GData);
     if (job->error() != 0) {
         qCritical() << "slotModifyPost error:" << job->errorString();
-        emit q->errorPost(GData::Atom, job->errorString(), post);
+        Q_EMIT q->errorPost(GData::Atom, job->errorString(), post);
         return;
     }
 
     QRegExp rxId(QStringLiteral("post-(\\d+)"));   //FIXME check and do better handling, esp creation date time
     if (rxId.indexIn(data) == -1) {
         qCritical() << "Could not regexp the id out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the id out of the result."), post);
         return;
     }
@@ -868,7 +868,7 @@ void GDataPrivate::slotModifyPost(KJob *job)
     QRegExp rxPub(QStringLiteral("<published>(.+)</published>"));
     if (rxPub.indexIn(data) == -1) {
         qCritical() << "Could not regexp the published time out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the published time out of the result."), post);
         return;
     }
@@ -877,7 +877,7 @@ void GDataPrivate::slotModifyPost(KJob *job)
     QRegExp rxUp(QStringLiteral("<updated>(.+)</updated>"));
     if (rxUp.indexIn(data) == -1) {
         qCritical() << "Could not regexp the update time out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the update time out of the result."), post);
         return;
     }
@@ -886,7 +886,7 @@ void GDataPrivate::slotModifyPost(KJob *job)
     post->setCreationDateTime(QDateTime::fromString(rxPub.cap(1)));
     post->setModificationDateTime(QDateTime::fromString(rxUp.cap(1)));
     post->setStatus(BlogPost::Modified);
-    emit q->modifiedPost(post);
+    Q_EMIT q->modifiedPost(post);
 }
 
 void GDataPrivate::slotRemovePost(KJob *job)
@@ -904,13 +904,13 @@ void GDataPrivate::slotRemovePost(KJob *job)
     Q_Q(GData);
     if (job->error() != 0) {
         qCritical() << "slotRemovePost error:" << job->errorString();
-        emit q->errorPost(GData::Atom, job->errorString(), post);
+        Q_EMIT q->errorPost(GData::Atom, job->errorString(), post);
         return;
     }
 
     post->setStatus(BlogPost::Removed);
     qCDebug(KBLOG_LOG) << "Emitting removedPost()";
-    emit q->removedPost(post);
+    Q_EMIT q->removedPost(post);
 }
 
 void GDataPrivate::slotCreateComment(KJob *job)
@@ -932,7 +932,7 @@ void GDataPrivate::slotCreateComment(KJob *job)
 
     if (job->error() != 0) {
         qCritical() << "slotCreateComment error:" << job->errorString();
-        emit q->errorComment(GData::Atom, job->errorString(), post, comment);
+        Q_EMIT q->errorComment(GData::Atom, job->errorString(), post, comment);
         return;
     }
 
@@ -940,7 +940,7 @@ void GDataPrivate::slotCreateComment(KJob *job)
     QRegExp rxId(QStringLiteral("post-(\\d+)"));
     if (rxId.indexIn(data) == -1) {
         qCritical() << "Could not regexp the id out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the id out of the result."), post);
         return;
     }
@@ -949,7 +949,7 @@ void GDataPrivate::slotCreateComment(KJob *job)
     QRegExp rxPub(QStringLiteral("<published>(.+)</published>"));
     if (rxPub.indexIn(data) == -1) {
         qCritical() << "Could not regexp the published time out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the published time out of the result."), post);
         return;
     }
@@ -958,7 +958,7 @@ void GDataPrivate::slotCreateComment(KJob *job)
     QRegExp rxUp(QStringLiteral("<updated>(.+)</updated>"));
     if (rxUp.indexIn(data) == -1) {
         qCritical() << "Could not regexp the update time out of the result:" << data;
-        emit q->errorPost(GData::Atom,
+        Q_EMIT q->errorPost(GData::Atom,
                           i18n("Could not regexp the update time out of the result."), post);
         return;
     }
@@ -968,7 +968,7 @@ void GDataPrivate::slotCreateComment(KJob *job)
     comment->setModificationDateTime(QDateTime::fromString(rxUp.cap(1)));
     comment->setStatus(BlogComment::Created);
     qCDebug(KBLOG_LOG) << "Emitting createdComment()";
-    emit q->createdComment(post, comment);
+    Q_EMIT q->createdComment(post, comment);
 }
 
 void GDataPrivate::slotRemoveComment(KJob *job)
@@ -989,13 +989,13 @@ void GDataPrivate::slotRemoveComment(KJob *job)
 
     if (job->error() != 0) {
         qCritical() << "slotRemoveComment error:" << job->errorString();
-        emit q->errorComment(GData::Atom, job->errorString(), post, comment);
+        Q_EMIT q->errorComment(GData::Atom, job->errorString(), post, comment);
         return;
     }
 
     comment->setStatus(BlogComment::Created);
     qCDebug(KBLOG_LOG) << "Emitting removedComment()";
-    emit q->removedComment(post, comment);
+    Q_EMIT q->removedComment(post, comment);
 }
 
 #include "moc_gdata.cpp"
